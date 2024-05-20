@@ -1,19 +1,37 @@
-import React from 'react'
+import React, { useState } from 'react';
+import axio from 'axios'
 
 export default function Login() {
+  const [data, setData] = useState({
+    email: '',
+    password: '',
+  });
+
   const loginUser = (e) => {
-    e.preventDefault()
-  }
+    e.preventDefault();
+    axio.get('/')
+    console.log('Login attempt', data);
+  };
+
   return (
     <div>
       <form onSubmit={loginUser}>
         <label>E-mail</label>
-        <input type='email' placeholder='Skriv e-mail...'></input>
+        <input
+          type="email"
+          value={data.email}
+          placeholder="Skriv e-mail..."
+          onChange={(e) => setData({ ...data, email: e.target.value })}
+        />
         <label>Lösenord</label>
-        <input type='password' placeholder='Skriv lösenord...'></input>
-        <button type='submit'>Logga in!</button>
+        <input
+          type="password"
+          value={data.password}
+          placeholder="Skriv lösenord..."
+          onChange={(e) => setData({ ...data, password: e.target.value })}
+        />
+        <button type="submit">Logga in!</button>
       </form>
-      
     </div>
-  )
+  );
 }
