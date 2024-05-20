@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axio from 'axios'
+import axios from 'axios'
 
 export default function Login() {
   const [data, setData] = useState({
@@ -9,7 +9,7 @@ export default function Login() {
 
   const loginUser = (e) => {
     e.preventDefault();
-    axio.get('/')
+    axios.get('/')
     console.log('Login attempt', data);
   };
 
