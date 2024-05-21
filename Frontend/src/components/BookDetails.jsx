@@ -1,0 +1,136 @@
+import React, { useState, useEffect, useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
+import { UserContext } from '../../Shelf/userShelf';// Importerar UserContext för att hämta användarinformation
+
+export default function BookDetails() {
+  const { bookId } = useParams();// Hämta bookId från URL-parametrarna
+  const { user } = useContext(UserContext);// Hämta användarinformation från UserContext
+  const [book, setBook] = useState(null);// Tillstånd för att lagra bokinformationen
+  const [reviews, setReviews] = useState([]);// Tillstånd för att lagra recensioner
+  const [reviewText, setReviewText] = useState('');// Tillstånd för att lagra texten av en ny recension
+  const [rating, setRating] = useState(1);// Tillstånd för att lagra betyget av en ny recension
+
+  // useEffect för att hämta bokinformation och recensioner när komponenten laddas eller när bookId ändras
+  useEffect(() => {
+    const fetchBookDetails = async () => {
+      try {
+        const response = await axios.get(`/book/${bookId}`);// Hämta bokinformationen från backend
+        setBook(response.data);// Sätta bokinformationen i tillståndet
+      } catch (error) {
+        console.error('Error fetching book details:', error);// Logga eventuella fel
+      }
+    };
+
+    const fetchReviews = async () => {
+      try {
+        const response = await axios.get(`/reviews/${bookId}`);// Hämta recensionerna från backend
+        setReviews(response.data); // Sätta recensionerna i tillståndet
+      } catch (error) {
+        console.error('Error fetching reviews:', error);// Logga eventuella fel
+      }
+    };
+
+    fetchBookDetails();
+    fetchReviews();
+  }, [bookId]);
+
+  // Funktion för att hantera inlämning av en ny recension
+  const handleReviewSubmit = async (e) => {
+    e.preventDefault();// Förhindra standardformulärets skickande
+    if (!user || !user.id) {
+      console.error('User is not logged in or user ID is missing');// Logga ett fel om användaren inte är inloggad
+      return;
+    }
+
+    try {
+      const response = await axios.post('/reviews', {
+        bookId,
+        review_text: reviewText,
+        rating
+      });
+      setReviews([...reviews, response.data]);// Lägg till den nya recensionen i tillståndet
+      setReviewText('');// Rensa textfältet
+      setRating(1);// Återställ betyget
+    } catch (error) {
+      console.error('Error submitting review:', error);// Logga eventuella fel
+    }
+  };
+
+  // Funktion för att hantera gillning av en recension
+  const handleLike = async (reviewId) => {
+    try {
+      const response = await axios.post(`/reviews/${reviewId}/like`, {
+        userId: user.id
+      });
+      setReviews(reviews.map(review => review._id === reviewId ? response.data : review));// Uppdatera recensionen i tillståndet
+    } catch (error) {
+      console.error('Error liking review:', error);// Logga eventuella fel
+    }
+  };
+
+   // Funktion för att hantera ogillning av en recension
+  const handleDislike = async (reviewId) => {
+    try {
+      const response = await axios.post(`/reviews/${reviewId}/dislike`, {
+        userId: user.id
+      });
+      setReviews(reviews.map(review => review._id === reviewId ? response.data : review));// Uppdatera recensionen i tillståndet
+    } catch (error) {
+      console.error('Error disliking review:', error);// Logga eventuella fel
+    }
+  };
+
+  // Om bokinformationen inte har laddats än, visa en laddningsmeddelande
+  if (!book) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div>
+      <h1>{book.title}</h1>
+      {book.cover_i && (
+        <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} />// Visa bokomslaget om det finns
+      )}
+      <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>// Visa författarens namn
+      <p>First published: {book.first_publish_year}</p> // Visa första publiceringsåret
+      <p>ISBN: {book.isbn ? book.isbn.join(', ') : 'N/A'}</p> // Visa ISBN
+      <p>Description: {book.description || 'No description available'}</p> // Visa beskrivning
+      
+      <h2>Leave a Review</h2>
+      {user ? ( // Om användaren är inloggad, visa formuläret för att lämna en recension
+        <form onSubmit={handleReviewSubmit}>
+          <textarea
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            placeholder="Write your review..."
+            maxLength="250"
+          />
+          <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
+            {[1, 2, 3, 4, 5].map(num => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+          <button type="submit">Submit Review</button>
+        </form>
+      ) : (
+        <p>Please log in to leave a review.</p> // Om användaren inte är inloggad, visa ett meddelande
+      )}
+      
+      <h2>Reviews</h2>
+      {reviews.length > 0 ? ( // Om det finns recensioner, visa dem
+        reviews.map(review => (
+          <div key={review._id}>
+            <p>{review.review_text}</p>
+            <p>Rating: {review.rating}</p>
+            <p>By: {review.user.name}</p>
+            <button onClick={() => handleLike(review._id)}>Like ({review.likes.length})</button>
+            <button onClick={() => handleDislike(review._id)}>Dislike ({review.dislikes.length})</button>
+          </div>
+        ))
+      ) : (
+        <p>No reviews yet.</p> // Om det inte finns några recensioner, visa ett meddelande
+      )}
+    </div>
+  );
+}

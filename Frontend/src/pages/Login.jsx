@@ -1,46 +1,49 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';// Importerar React och nödvändiga hooks
+import axios from 'axios';// Importerar axios för att skicka HTTP-förfrågningar
+import { UserContext } from '../../Shelf/userShelf'; // Importerar UserContext för att hantera användardata
+import { useNavigate } from 'react-router-dom';// Importerar useNavigate för att navigera mellan sidor
 
 export default function Login() {
   const [data, setData] = useState({
     email: '',
     password: '',
-  });
+  });// Tillstånd för att lagra inloggningsdata
 
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);// Hämta setUser-funktionen från UserContext för att uppdatera användardata
+  const [error, setError] = useState('');// Tillstånd för att lagra felmeddelanden
+  const [success, setSuccess] = useState('');// Tillstånd för att lagra framgångsmeddelanden
+  const navigate = useNavigate();// Hook för att navigera mellan sidor
 
+  // Funktion för att hantera inloggning
   const loginUser = async (e) => {
-    e.preventDefault();
-    setError('');
-    setSuccess('');
+    e.preventDefault();// Förhindra standardformulärets skickande
+    setError('');// Rensa felmeddelandet
+    setSuccess('');// Rensa framgångsmeddelandet
 
-    const { email, password } = data;
-    console.log('Invio dati di login:', { email, password });
+    const { email, password } = data;// Destrukturera email och password från tillståndet
+    console.log('Sending login data:', { email, password });
 
     try {
+      // Skicka POST-förfrågan till backend för att logga in
       const response = await axios.post('http://localhost:8000/login', 
         { email, password },
-        { withCredentials: true } // This ensures that cookies are sent
+        { withCredentials: true } // Detta säkerställer att cookies skickas
       );
       console.log('Login lyckades:', response.data);
-      setSuccess('Login lyckades!');
-
-      // Navigate to the dashboard 
-      navigate('/dashboard'); 
-
+      setSuccess('Login lyckades!');// Sätt framgångsmeddelande
+      setUser(response.data.user);// Uppdatera användardata i UserContext
       setData({
         email: '',
         password: '',
-      });
+      });// Rensa inloggningsformuläret
+      navigate('/dashboard'); // Navigera till dashboard-sidan
     } catch (err) {
-      console.log('Errore durante il login:', err.response);
+      console.log('Error during login:', err.response);
       if (err.response && err.response.data) {
-        setError(err.response.data.error || 'Login misslyckades');
+        setError(err.response.data.error || 'Login misslyckades');// Sätt felmeddelande om inloggningen misslyckas
+
       } else {
-        setError('Serverfel. Försök igen senare.');
+        setError('Serverfel. Försök igen senare.'); // Sätt generellt felmeddelande om något går fel med servern
       }
     }
   };
@@ -62,8 +65,8 @@ export default function Login() {
           placeholder="Skriv lösenord..."
           onChange={(e) => setData({ ...data, password: e.target.value })}
         />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-        {success && <p style={{ color: 'green' }}>{success}</p>}
+        {error && <p style={{ color: 'red' }}>{error}</p>} // Visa felmeddelande om det finns något
+        {success && <p style={{ color: 'green' }}>{success}</p>} // Visa framgångsmeddelande om det finns något
         <button type="submit">Logga in</button>
       </form>
     </div>
