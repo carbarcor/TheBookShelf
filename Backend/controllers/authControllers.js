@@ -49,11 +49,59 @@ const signupUser = async (req, res) => {
         });
 
     } catch (error) {
-        console.log('Errore durante la registrazione:', error);
+        console.log('Error:', error);
         return res.status(500).json({
             error: 'Serverfel'
         });
     }
 };
 
-module.exports = signupUser;
+const loginUser = async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        console.log('Login:', { email, password });
+
+        if (!email || !password) {
+            return res.status(400).json({
+                error: 'Fyll i både e-postadress och lösenord'
+            });
+        }
+
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({
+                error: 'Felaktig e-postadress eller lösenord'
+            });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({
+                error: 'Felaktig e-postadress eller lösenord'
+            });
+        }
+
+        // Generare token JWT 
+        // const token = generateToken(user._id);
+
+        console.log('Login lyckades:', user);
+
+        return res.status(200).json({
+            message: 'Login lyckades',
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email
+            },
+            // token // insert token 
+        });
+
+    } catch (error) {
+        console.log('Error login:', error);
+        return res.status(500).json({
+            error: 'Serverfel'
+        });
+    }
+};
+
+module.exports = { signupUser, loginUser };
