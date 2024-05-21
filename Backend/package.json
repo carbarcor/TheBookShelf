@@ -10,6 +10,7 @@
   "license": "MIT",
   "description": "",
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "expess": "^0.0.1-security",

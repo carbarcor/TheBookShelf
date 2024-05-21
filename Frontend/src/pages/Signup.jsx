@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 export default function Signup() {
   const [data, setData] = useState({
@@ -9,15 +10,42 @@ export default function Signup() {
   });
 
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
 
-  const signUpUser = (e) => {
+  const signUpUser = async (e) => {
     e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    // Kontrollera att lösenorden matchar
     if (data.password !== data.confirmPassword) {
-      setError('Le password non coincidono');
-    } else {
-      setError('');
-      // Aggiungi qui la logica per registrare l'utente, ad esempio una chiamata API
-      console.log('Registrazione completata', data);
+      setError('Lösenorden matchar inte');
+      return;
+    }
+
+    const { name, email, password } = data;
+
+    try {
+      // Skicka registreringsdata till servern
+      const response = await axios.post('http://localhost:8000/signup', 
+        { name, email, password },
+        { withCredentials: true } // This ensures that cookies are sent
+      );
+      console.log('Registrering lyckades:', response.data);
+      setSuccess('Registrering lyckades!');
+      setData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      });
+    } catch (err) {
+      // Hantera fel och visa meddelanden för användaren
+      if (err.response && err.response.data) {
+        setError(err.response.data.error || 'Registrering misslyckades');
+      } else {
+        setError('Serverfel. Försök igen senare.');
+      }
     }
   };
 
@@ -53,6 +81,7 @@ export default function Signup() {
           onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
         />
         {error && <p style={{ color: 'red' }}>{error}</p>}
+        {success && <p style={{ color: 'green' }}>{success}</p>}
         <button type="submit">Registrera dig</button>
       </form>
     </div>
