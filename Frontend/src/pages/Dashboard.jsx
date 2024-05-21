@@ -64,7 +64,7 @@ export default function Dashboard() {
           onChange={(e) => setIsbn(e.target.value)}
           placeholder="ISBN..." 
         />
-        <button type="submit">Search</button> // Sökningsknapp
+        <button type="submit">Search</button> 
       </form>
       <div>
         {books.length > 0 && (

@@ -92,10 +92,10 @@ export default function BookDetails() {
       {book.cover_i && (
         <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} />// Visa bokomslaget om det finns
       )}
-      <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>// Visa författarens namn
-      <p>First published: {book.first_publish_year}</p> // Visa första publiceringsåret
-      <p>ISBN: {book.isbn ? book.isbn.join(', ') : 'N/A'}</p> // Visa ISBN
-      <p>Description: {book.description || 'No description available'}</p> // Visa beskrivning
+      <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
+      <p>First published: {book.first_publish_year}</p> 
+      <p>ISBN: {book.isbn ? book.isbn.join(', ') : 'N/A'}</p> 
+      <p>Description: {book.description || 'No description available'}</p>
       
       <h2>Leave a Review</h2>
       {user ? ( 
