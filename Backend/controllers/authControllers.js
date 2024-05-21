@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
-const User = require('../models/User'); 
+const User = require('../models/User');
+const jwt = require('jsonwebtoken');
 
 const signupUser = async (req, res) => {
     try {
@@ -82,8 +83,8 @@ const loginUser = async (req, res) => {
         }
 
         // Generare token JWT 
-        // const token = generateToken(user._id);
-
+        const token = jwt.sign({ email: user.email, id: user._id, name: user.name }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.cookie('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
         console.log('Login lyckades:', user);
 
         return res.status(200).json({
@@ -92,8 +93,7 @@ const loginUser = async (req, res) => {
                 id: user._id,
                 name: user.name,
                 email: user.email
-            },
-            // token // insert token 
+            }
         });
 
     } catch (error) {
@@ -104,4 +104,18 @@ const loginUser = async (req, res) => {
     }
 };
 
-module.exports = { signupUser, loginUser };
+
+const getProfile = (req, res )=> {
+    const {token} = req.cookies
+    if (token) {
+        jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
+            if(err) throw err;
+            res.json(user)
+        })
+    } else {
+        rew.json(null)
+    }
+
+}
+
+module.exports = { signupUser, loginUser, getProfile };

@@ -2,12 +2,14 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
-const authRoutes = require('./routes/authRoutes'); // Assicurati che il percorso sia corretto
+const cookieParser = require('cookie-parser');
+const authRoutes = require('./routes/authRoutes'); 
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+app.use(cookieParser());
 
 // CORS configuration
 const corsOptions = {

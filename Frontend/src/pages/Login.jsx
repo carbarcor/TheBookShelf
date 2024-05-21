@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-  const navigate = useNavigate()
   const [data, setData] = useState({
     email: '',
     password: '',
@@ -11,6 +10,7 @@ export default function Login() {
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const navigate = useNavigate();
 
   const loginUser = async (e) => {
     e.preventDefault();
@@ -18,7 +18,7 @@ export default function Login() {
     setSuccess('');
 
     const { email, password } = data;
-    console.log('Login data:', { email, password });
+    console.log('Invio dati di login:', { email, password });
 
     try {
       const response = await axios.post('http://localhost:8000/login', 
@@ -27,11 +27,14 @@ export default function Login() {
       );
       console.log('Login lyckades:', response.data);
       setSuccess('Login lyckades!');
+
+      // Navigate to the dashboard 
+      navigate('/dashboard'); 
+
       setData({
         email: '',
         password: '',
       });
-      navigate('/')
     } catch (err) {
       console.log('Errore durante il login:', err.response);
       if (err.response && err.response.data) {
