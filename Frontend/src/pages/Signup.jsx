@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {useNavigate} from 'react-router-dom'
 
 export default function Signup() {
+  const navigate = useNavigate()
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -39,6 +41,7 @@ export default function Signup() {
         password: '',
         confirmPassword: '',
       });
+      navigate('/')
     } catch (err) {
       // Hantera fel och visa meddelanden för användaren
       if (err.response && err.response.data) {
