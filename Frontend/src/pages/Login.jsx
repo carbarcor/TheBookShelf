@@ -65,8 +65,8 @@ export default function Login() {
           placeholder="Skriv lösenord..."
           onChange={(e) => setData({ ...data, password: e.target.value })}
         />
-        {error && <p style={{ color: 'red' }}>{error}</p>} // Visa felmeddelande om det finns något
-        {success && <p style={{ color: 'green' }}>{success}</p>} // Visa framgångsmeddelande om det finns något
+        {error && <p style={{ color: 'red' }}>{error}</p>} 
+        {success && <p style={{ color: 'green' }}>{success}</p>} 
         <button type="submit">Logga in</button>
       </form>
     </div>

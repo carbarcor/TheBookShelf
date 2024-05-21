@@ -34,7 +34,7 @@ export default function Dashboard() {
   return (
     <div>
       <h1>Profile</h1>
-      {user && ( // Visa användarens namn och ID om användaren är inloggad
+      {user && ( 
         <div>
           <p>Welcome, {user.name}, ID user: {user.id}!</p>
         </div>
@@ -44,38 +44,38 @@ export default function Dashboard() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for books..."// Sökfält för böcker
+          placeholder="Search for books..."
         />
         <input
           type="text"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
-          placeholder="Author name..."// Sökfält för författare
+          placeholder="Author name..."
         />
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Book title..."// Sökfält för boktitel
+          placeholder="Book title..."
         />
         <input
           type="text"
           value={isbn}
           onChange={(e) => setIsbn(e.target.value)}
-          placeholder="ISBN..." // Sökfält för ISBN
+          placeholder="ISBN..." 
         />
         <button type="submit">Search</button> // Sökningsknapp
       </form>
       <div>
-        {books.length > 0 && ( // Visa resultaten om det finns några böcker
+        {books.length > 0 && (
           <ul>
-            {books.map((book) => ( // Loop genom varje bok och visa dess information
+            {books.map((book) => (
               <li key={book.key}>
                 <h3>
-                  <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link> // Länk till bokens sidan
+                  <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link> 
                 </h3>
-                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p> // Visa författarens namn
-                <p>First published: {book.first_publish_year}</p> // Visa publiceringsåret
+                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p> 
+                <p>First published: {book.first_publish_year}</p>
               </li>
             ))}
           </ul>

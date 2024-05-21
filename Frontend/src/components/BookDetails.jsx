@@ -98,7 +98,7 @@ export default function BookDetails() {
       <p>Description: {book.description || 'No description available'}</p> // Visa beskrivning
       
       <h2>Leave a Review</h2>
-      {user ? ( // Om användaren är inloggad, visa formuläret för att lämna en recension
+      {user ? ( 
         <form onSubmit={handleReviewSubmit}>
           <textarea
             value={reviewText}
@@ -114,11 +114,11 @@ export default function BookDetails() {
           <button type="submit">Submit Review</button>
         </form>
       ) : (
-        <p>Please log in to leave a review.</p> // Om användaren inte är inloggad, visa ett meddelande
+        <p>Please log in to leave a review.</p> 
       )}
       
       <h2>Reviews</h2>
-      {reviews.length > 0 ? ( // Om det finns recensioner, visa dem
+      {reviews.length > 0 ? ( 
         reviews.map(review => (
           <div key={review._id}>
             <p>{review.review_text}</p>
@@ -129,7 +129,7 @@ export default function BookDetails() {
           </div>
         ))
       ) : (
-        <p>No reviews yet.</p> // Om det inte finns några recensioner, visa ett meddelande
+        <p>No reviews yet.</p> 
       )}
     </div>
   );
