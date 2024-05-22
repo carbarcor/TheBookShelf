@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf'; // Se till att sökvägen är korrekt
+import '../styles/dashboard.css';
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);// Hämta användardata från UserContext

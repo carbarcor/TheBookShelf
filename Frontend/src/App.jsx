@@ -8,6 +8,7 @@ import axios from 'axios'; // Importerar axios för att skicka HTTP-förfrågnin
 import { UserContextProvider } from '../Shelf/userShelf'; // Importerar UserContextProvider för att hantera användarkontext
 import Dashboard from './pages/Dashboard'; // Importerar Dashboard-sidan
 import BookDetails from './components/BookDetails';// Importerar BookDetails-komponenten
+import Mybooks from './pages/Mybooks'; // Importerar Mybooks-sidan
 
 // Ställ in bas-URL och credentials för axios
 axios.defaults.baseURL = 'http://localhost:8000';// Ställer in bas-URL för axios-förfrågningar
@@ -23,6 +24,7 @@ return (
       <Route path='/signup' element={<Signup />} />
       <Route path='/login' element={<Login />} />
       <Route path='/dashboard' element={<Dashboard />} />
+      <Route path='/mybooks' element={<Mybooks />} />
       <Route path="/book/:bookId" element={<BookDetails />} />
     </Routes>
   </UserContextProvider>
