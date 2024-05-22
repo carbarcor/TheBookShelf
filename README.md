@@ -20,3 +20,4 @@ Setting vite for the Frontend.
 ## Backend
 
 1. npm i express nodemon dotenv cors mysql2
+
