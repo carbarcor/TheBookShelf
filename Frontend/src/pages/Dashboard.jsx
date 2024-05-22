@@ -67,7 +67,7 @@ export default function Dashboard() {
         />
         <button type="submit">Search</button> 
       </form>
-      <div>
+      <div className="bookResult">
         {books.length > 0 && (
           <ul>
             {books.map((book) => (
