@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom';
+import '../styles/signup.css'; // Se till att sökvägen är korrekt
 
 export default function Signup() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -41,7 +42,7 @@ export default function Signup() {
         password: '',
         confirmPassword: '',
       });
-      navigate('/')
+      navigate('/');
     } catch (err) {
       // Hantera fel och visa meddelanden för användaren
       if (err.response && err.response.data) {
@@ -53,7 +54,8 @@ export default function Signup() {
   };
 
   return (
-    <div>
+    <div className="signup-container">
+      <h1>Registrera dig</h1>
       <form onSubmit={signUpUser}>
         <label>Namn</label>
         <input
@@ -80,7 +82,7 @@ export default function Signup() {
         <input
           type="password"
           value={data.confirmPassword}
-          placeholder="Skriv lösenord..."
+          placeholder="Skriv lösenord igen..."
           onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
         />
         {error && <p style={{ color: 'red' }}>{error}</p>}
