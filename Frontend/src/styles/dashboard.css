@@ -37,6 +37,7 @@
     color: white;
     border: none;
     cursor: pointer;
+    margin: 0;
   }
   
   .dashboard-container form button[type="submit"]:hover {
@@ -89,5 +90,9 @@
   
   .bookResult li p {
     margin: 5px 0;
+  }
+
+  .bookResult li a {
+    padding: 0;
   }
   

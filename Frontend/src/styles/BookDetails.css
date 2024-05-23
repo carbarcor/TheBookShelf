@@ -43,10 +43,13 @@
   }
   
   .review-form select {
-    width: 30px;
+    width: 35px;
+    height: 41px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: large;
+    text-align: center;
   }
   
   .review-form button {
@@ -57,7 +60,7 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-left: 0;
+    margin-left: 10px;
   }
   
   .review-form button:hover {
