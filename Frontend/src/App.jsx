@@ -18,16 +18,20 @@ function App() {
 return (
   // Omsluter hela applikationen med UserContextProvider för att hantera användarkontext
   <UserContextProvider>  
-    <Navbar /> 
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/signup' element={<Signup />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/dashboard' element={<Dashboard />} />
-      <Route path='/mybooks' element={<Mybooks />} />
-      <Route path="/book/:bookId" element={<BookDetails />} />
-    </Routes>
-  </UserContextProvider>
+      <div id="root">
+        <Navbar /> 
+        <div className="container">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/mybooks' element={<Mybooks />} />
+            <Route path="/book/:bookId" element={<BookDetails />} />
+          </Routes>
+        </div>
+      </div>
+    </UserContextProvider>
   )
 }
 
