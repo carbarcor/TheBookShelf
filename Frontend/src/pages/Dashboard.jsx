@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf'; // Se till att sökvägen är korrekt
-import '../styles/dashboard.css';
+import '../styles/dashboard.css'; // Importerar CSS-fil.
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);// Hämta användardata från UserContext
@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [title, setTitle] = useState('');// Tillstånd för boktitel
   const [isbn, setIsbn] = useState('');// Tillstånd för ISBN
   const [books, setBooks] = useState([]);// Tillstånd för böcker
+  const [showAdvanced, setShowAdvanced] = useState(false); // Tillstånd för att visa/dölja avancerade sökfält
 
   // Funktion för att hantera sökningen
   const handleSearch = async (e) => {
@@ -33,9 +34,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div>
+    <div className="dashboard-container">
       <h1>Profile</h1>
-      {user && ( 
+      {user && (
         <div>
           <p>Welcome, {user.name}, ID user: {user.id}!</p>
         </div>
@@ -47,25 +48,36 @@ export default function Dashboard() {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Search for books..."
         />
-        <input
-          type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          placeholder="Author name..."
-        />
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Book title..."
-        />
-        <input
-          type="text"
-          value={isbn}
-          onChange={(e) => setIsbn(e.target.value)}
-          placeholder="ISBN..." 
-        />
-        <button type="submit">Search</button> 
+        <button
+          type="button"
+          className="advanced-search-button"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+        >
+          Advanced Search
+        </button>
+        {showAdvanced && (
+          <div className="advanced-search-fields">
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="Author name..."
+            />
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Book title..."
+            />
+            <input
+              type="text"
+              value={isbn}
+              onChange={(e) => setIsbn(e.target.value)}
+              placeholder="ISBN..."
+            />
+          </div>
+        )}
+        <button type="submit">Search</button>
       </form>
       <div className="bookResult">
         {books.length > 0 && (
@@ -73,9 +85,9 @@ export default function Dashboard() {
             {books.map((book) => (
               <li key={book.key}>
                 <h3>
-                  <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link> 
+                  <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link>
                 </h3>
-                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p> 
+                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
                 <p>First published: {book.first_publish_year}</p>
               </li>
             ))}
