@@ -21,8 +21,15 @@ router.get('/search', async (req, res) => {
   try {
     // Skicka en GET-förfrågan till Open Library API med den byggda query-strängen
     const response = await axios.get(`https://openlibrary.org/search.json?${queryString}`);
+    const books = response.data.docs.map(book => ({
+      key: book.key,
+      title: book.title,
+      author_name: book.author_name,
+      first_publish_year: book.first_publish_year,
+      cover_id: book.cover_i
+    }));
     // Skicka tillbaka svaret som JSON
-    res.json(response.data);
+    res.json({ docs: books })
   } catch (error) {
     // Logga eventuella fel och skicka ett felmeddelande till klienten
     console.error('Error fetching books:', error);
