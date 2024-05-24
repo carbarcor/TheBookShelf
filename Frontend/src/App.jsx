@@ -7,7 +7,7 @@ import Login from './pages/Login';// Importerar Login-sidan
 import axios from 'axios'; // Importerar axios för att skicka HTTP-förfrågningar
 import { UserContextProvider } from '../Shelf/userShelf'; // Importerar UserContextProvider för att hantera användarkontext
 import Dashboard from './pages/Dashboard'; // Importerar Dashboard-sidan
-import BookDetails from './components/BookDetails';// Importerar BookDetails-komponenten
+import BookDetails from './pages/BookDetails';// Importerar BookDetails-komponenten
 
 // Ställ in bas-URL och credentials för axios
 axios.defaults.baseURL = 'http://localhost:8000';// Ställer in bas-URL för axios-förfrågningar

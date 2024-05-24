@@ -26,6 +26,12 @@ mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log('Database connected'))// Logga ett meddelande om anslutningen lyckas
   .catch((err) => console.log('DB not connected', err));// Logga ett felmeddelande om anslutningen misslyckas
 
+//Loggning av requests för felsökning
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
+
 // Använda rutter  
 app.use('/', authRoutes);// Använd autentiseringsrutter
 app.use('/', bookRoutes);// Använd bokrutter

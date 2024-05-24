@@ -45,8 +45,18 @@ router.get('/book/:id', async (req, res) => {
   try {
     // Skicka en GET-förfrågan till Open Library API för att hämta bokdetaljer
     const response = await axios.get(`https://openlibrary.org/works/${id}.json`);
+    const bookDetails = response.data;
+    console.log(bookDetails)
+
+    // Dra ut det första ID:et ur arrayn "covers"
+    const coverId = bookDetails.covers && bookDetails.covers.length > 0 ? bookDetails.covers[0] : null;
+
+    console.log('Cover id:', coverId)
     // Skicka tillbaka svaret som JSON
-    res.json(response.data);
+    res.json({
+      ...bookDetails,
+      cover_id: coverId
+    })
   } catch (error) {
     // Logga eventuella fel och skicka ett felmeddelande till klienten
     console.error('Error fetching book details:', error);

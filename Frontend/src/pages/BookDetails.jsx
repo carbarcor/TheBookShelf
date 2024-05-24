@@ -15,7 +15,9 @@ export default function BookDetails() {
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
+        console.log(`Fetching book details for bookId: ${bookId}`);
         const response = await axios.get(`/book/${bookId}`);// Hämta bokinformationen från backend
+        console.log('Book details response:', response.data);
         setBook(response.data);// Sätta bokinformationen i tillståndet
       } catch (error) {
         console.error('Error fetching book details:', error);// Logga eventuella fel
@@ -24,7 +26,9 @@ export default function BookDetails() {
 
     const fetchReviews = async () => {
       try {
+        console.log(`Fetching reviews for bookId: ${bookId}`);
         const response = await axios.get(`/reviews/${bookId}`);// Hämta recensionerna från backend
+        console.log('Reviews response:', response.data);
         setReviews(response.data); // Sätta recensionerna i tillståndet
       } catch (error) {
         console.error('Error fetching reviews:', error);// Logga eventuella fel
@@ -89,9 +93,14 @@ export default function BookDetails() {
   return (
     <div>
       <h1>{book.title}</h1>
-      {book.cover_i && (
-        <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} />// Visa bokomslaget om det finns
-      )}
+      {book.cover_id ? (
+        <img
+          src={`https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg`}
+          alt={`Cover of ${book.title}`}
+        />
+        ) : (
+        <p>No cover available</p>
+        )}
       <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
       <p>First published: {book.first_publish_year}</p> 
       <p>ISBN: {book.isbn ? book.isbn.join(', ') : 'N/A'}</p> 

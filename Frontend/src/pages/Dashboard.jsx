@@ -79,7 +79,7 @@ export default function Dashboard() {
                 {book.cover_id ? (
                   <img
                     src={`https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`}
-                    alt={`Cover of ${book.tile}`}
+                    alt={`Cover of ${book.title}`}
                   />
                 ) : (
                   <p>No cover available</p>
