@@ -37,7 +37,6 @@ export default function Mybooks() {
             >
               <div className="book-card-content">
                 <h3>{book.title}</h3>
-                <p>ID: {book.id}</p>
               </div>
             </div>
           ))
