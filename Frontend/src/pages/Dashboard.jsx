@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf'; // Se till att sökvägen är korrekt
+import ErrorMessage from '../components/ErrorMessage'; // Importerar felmeddelanden
 
 export default function Dashboard() {
   const { user } = useContext(UserContext);// Hämta användardata från UserContext
@@ -10,6 +11,8 @@ export default function Dashboard() {
   const [title, setTitle] = useState('');// Tillstånd för boktitel
   const [isbn, setIsbn] = useState('');// Tillstånd för ISBN
   const [books, setBooks] = useState([]);// Tillstånd för böcker
+  const [searchError, setSearchError] = useState(''); // State for book fetch error
+
 
   // Funktion för att hantera sökningen
   const handleSearch = async (e) => {
@@ -28,6 +31,10 @@ export default function Dashboard() {
       setBooks(response.data.docs);// Uppdatera tillståndet med de hämtade böckerna
     } catch (error) {
       console.error('Error fetching books:', error);// Logga eventuella fel
+      setSearchError({
+        status: error.response.status,
+        statusText: error.response.statusText
+      });
     }
   };
 
@@ -66,7 +73,9 @@ export default function Dashboard() {
         />
         <button type="submit">Search</button> 
       </form>
+      
       <div>
+        <ErrorMessage error={searchError} />
         {books.length > 0 && (
           <ul>
             {books.map((book) => (

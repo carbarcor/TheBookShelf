@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf';// Importerar UserContext för att hämta användarinformation
+import ErrorMessage from '../components/ErrorMessage'; // Importerar felmeddelanden
 
 export default function BookDetails() {
   const { bookId } = useParams();// Hämta bookId från URL-parametrarna
@@ -10,6 +11,8 @@ export default function BookDetails() {
   const [reviews, setReviews] = useState([]);// Tillstånd för att lagra recensioner
   const [reviewText, setReviewText] = useState('');// Tillstånd för att lagra texten av en ny recension
   const [rating, setRating] = useState(1);// Tillstånd för att lagra betyget av en ny recension
+  const [bookError, setBookError] = useState(''); // State for book fetch error
+  
 
   // useEffect för att hämta bokinformation och recensioner när komponenten laddas eller när bookId ändras
   useEffect(() => {
@@ -21,6 +24,10 @@ export default function BookDetails() {
         setBook(response.data);// Sätta bokinformationen i tillståndet
       } catch (error) {
         console.error('Error fetching book details:', error);// Logga eventuella fel
+        setBookError({
+          status: error.response.status,
+          statusText: error.response.statusText
+        });
       }
     };
 
@@ -87,12 +94,18 @@ export default function BookDetails() {
 
   // Om bokinformationen inte har laddats än, visa en laddningsmeddelande
   if (!book) {
-    return <div>Loading...</div>;
+    return (
+        <div>
+          Loading...
+          <ErrorMessage error={bookError} />
+        </div>
+      );
   }
 
   return (
     <div>
       <h1>{book.title}</h1>
+      <ErrorMessage error={bookError} />
       {book.cover_id ? (
         <img
           src={`https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg`}
