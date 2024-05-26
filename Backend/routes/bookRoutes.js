@@ -33,10 +33,10 @@ router.get('/search', async (req, res) => {
   } catch (error) {
     // Logga eventuella fel och skicka ett felmeddelande till klienten
     if (error.response && error.response.status === 503) {
-      console.error('Service unavailable:', error.response.statusText);
+      console.error(error.response.statusText);
     } else {
       console.error('Error fetching books:', error);
-    }
+    } 
   }
 });
 
@@ -63,10 +63,10 @@ router.get('/book/:id', async (req, res) => {
   } catch (error) {
     // Logga eventuella fel och skicka ett felmeddelande till klienten
     if (error.response && error.response.status === 503) {
-      console.error('Service unavailable:', error.response.statusText);
+      console.error(error.response.statusText);
     } else {
       console.error('Error fetching book details:', error);
-    }
+    } 
   }
 });
 

@@ -8,6 +8,7 @@ import axios from 'axios'; // Importerar axios för att skicka HTTP-förfrågnin
 import { UserContextProvider } from '../Shelf/userShelf'; // Importerar UserContextProvider för att hantera användarkontext
 import Dashboard from './pages/Dashboard'; // Importerar Dashboard-sidan
 import BookDetails from './pages/BookDetails';// Importerar BookDetails-komponenten
+import Mybooks from './pages/Mybooks'; // Importerar Mybooks-sidan
 
 // Ställ in bas-URL och credentials för axios
 axios.defaults.baseURL = 'http://localhost:8000';// Ställer in bas-URL för axios-förfrågningar
@@ -17,15 +18,20 @@ function App() {
 return (
   // Omsluter hela applikationen med UserContextProvider för att hantera användarkontext
   <UserContextProvider>  
-    <Navbar /> 
-    <Routes>
-      <Route path='/' element={<Home />} />
-      <Route path='/signup' element={<Signup />} />
-      <Route path='/login' element={<Login />} />
-      <Route path='/dashboard' element={<Dashboard />} />
-      <Route path="/book/:bookId" element={<BookDetails />} />
-    </Routes>
-  </UserContextProvider>
+      <div id="root">
+        <Navbar /> 
+        <div className="container">
+          <Routes>
+            <Route path='/' element={<Home />} />
+            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/dashboard' element={<Dashboard />} />
+            <Route path='/mybooks' element={<Mybooks />} />
+            <Route path="/book/:bookId" element={<BookDetails />} />
+          </Routes>
+        </div>
+      </div>
+    </UserContextProvider>
   )
 }
 

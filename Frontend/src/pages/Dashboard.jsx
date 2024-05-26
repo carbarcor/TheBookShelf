@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf'; // Se till att sökvägen är korrekt
+import '../styles/dashboard.css'; // Importerar CSS-fil.
 import ErrorMessage from '../components/ErrorMessage'; // Importerar felmeddelanden
 
 export default function Dashboard() {
@@ -11,8 +12,9 @@ export default function Dashboard() {
   const [title, setTitle] = useState('');// Tillstånd för boktitel
   const [isbn, setIsbn] = useState('');// Tillstånd för ISBN
   const [books, setBooks] = useState([]);// Tillstånd för böcker
-  const [searchError, setSearchError] = useState(''); // State for book fetch error
-
+  const [showAdvanced, setShowAdvanced] = useState(false); // Tillstånd för att visa/dölja avancerade sökfält
+  const [searchError, setSearchError] = useState(''); // Tillstånd för felmeddelanden vid sökning
+  const navigate = useNavigate(); // For navigation
 
   // Funktion för att hantera sökningen
   const handleSearch = async (e) => {
@@ -38,12 +40,30 @@ export default function Dashboard() {
     }
   };
 
+  // Funzione för att spara den klickade boken till localStorage
+  const saveBookToLocalStorage = (book) => {
+    const savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
+    const newBook = {
+      id: book.key,
+      title: book.title,
+      cover_id: book.cover_id
+    };
+    savedBooks.push(newBook);
+    localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+  };
+
+
+  const handleBookClick = (book) => {
+    saveBookToLocalStorage(book);
+    navigate(`/book/${book.key.replace('/works/', '')}`);
+  };
+
   return (
-    <div>
-      <h1>Profile</h1>
-      {user && ( 
+    <div className="dashboard-container">
+      <h1>Profil</h1>
+      {user && (
         <div>
-          <p>Welcome, {user.name}, ID user: {user.id}!</p>
+          <p>Välkommen, {user.name}!</p>
         </div>
       )}
       <form onSubmit={handleSearch}>
@@ -51,40 +71,55 @@ export default function Dashboard() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for books..."
+          placeholder="Sök efter böcker..."
         />
-        <input
-          type="text"
-          value={author}
-          onChange={(e) => setAuthor(e.target.value)}
-          placeholder="Author name..."
-        />
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Book title..."
-        />
-        <input
-          type="text"
-          value={isbn}
-          onChange={(e) => setIsbn(e.target.value)}
-          placeholder="ISBN..." 
-        />
-        <button type="submit">Search</button> 
+        <button
+          type="button"
+          className="advanced-search-button"
+          onClick={() => setShowAdvanced(!showAdvanced)}
+        >
+          Avancerad sökning
+        </button>
+        {showAdvanced && (
+          <div className="advanced-search-fields">
+            <input
+              type="text"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
+              placeholder="Författare..."
+            />
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Titel..."
+            />
+            <input
+              type="text"
+              value={isbn}
+              onChange={(e) => setIsbn(e.target.value)}
+              placeholder="ISBN..."
+            />
+          </div>
+        )}
+        <button type="submit">Sök</button>
       </form>
-      
-      <div>
+      <div className="bookResult">
         <ErrorMessage error={searchError} />
         {books.length > 0 && (
           <ul>
             {books.map((book) => (
               <li key={book.key}>
                 <h3>
-                  <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link> 
+                  <span
+                    onClick={() => handleBookClick(book)}
+                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                  >
+                    {book.title}
+                  </span>
                 </h3>
-                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p> 
-                <p>First published: {book.first_publish_year}</p>
+                <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
+                <p>Publicerad: {book.first_publish_year}</p>
                 {book.cover_id ? (
                   <img
                     src={`https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`}

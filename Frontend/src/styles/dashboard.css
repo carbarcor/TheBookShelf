@@ -1,0 +1,106 @@
+.dashboard-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: left;
+  }
+  
+  .dashboard-container h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .dashboard-container p {
+    font-size: 2em;
+    font-style: oblique;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .dashboard-container p {
+    font-size: 1em;
+    line-height: 1.5;
+    margin: 10px 0;
+  }
+  
+  .dashboard-container form {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dashboard-container form input,
+  .dashboard-container form button {
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+  }
+  
+  .dashboard-container form button[type="submit"] {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 0;
+  }
+  
+  .dashboard-container form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .dashboard-container form .advanced-search-button {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+  }
+  
+  .dashboard-container form .advanced-search-button:hover {
+    text-decoration: underline;
+  }
+  
+  .advanced-search-fields {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+  }
+  
+  .advanced-search-fields input {
+    margin-bottom: 10px;
+  }
+  
+  .bookResult {
+    margin-top: 20px;
+  }
+  
+  .bookResult ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .bookResult li {
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+  }
+  
+  .bookResult li h3 {
+    margin: 0;
+    font-size: 1.2em;
+  }
+  
+  .bookResult li p {
+    margin: 5px 0;
+  }
+
+  .bookResult li a {
+    padding: 0;
+  }
+  
