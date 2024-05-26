@@ -87,6 +87,16 @@ export default function Dashboard() {
                 <h3>
                   <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link>
                 </h3>
+                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p> 
+                <p>First published: {book.first_publish_year}</p>
+                {book.cover_id ? (
+                  <img
+                    src={`https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`}
+                    alt={`Cover of ${book.title}`}
+                  />
+                ) : (
+                  <p>No cover available</p>
+                )}
                 <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
                 <p>Publicerad: {book.first_publish_year}</p>
               </li>
