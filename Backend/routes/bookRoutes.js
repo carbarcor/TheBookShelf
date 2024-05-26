@@ -32,8 +32,11 @@ router.get('/search', async (req, res) => {
     res.json({ docs: books })
   } catch (error) {
     // Logga eventuella fel och skicka ett felmeddelande till klienten
-    console.error('Error fetching books:', error);
-    res.status(500).json({ error: 'Error fetching books' });
+    if (error.response && error.response.status === 503) {
+      console.error(error.response.statusText);
+    } else {
+      console.error('Error fetching books:', error);
+    } 
   }
 });
 
@@ -59,8 +62,11 @@ router.get('/book/:id', async (req, res) => {
     })
   } catch (error) {
     // Logga eventuella fel och skicka ett felmeddelande till klienten
-    console.error('Error fetching book details:', error);
-    res.status(500).json({ error: 'Error fetching book details' });
+    if (error.response && error.response.status === 503) {
+      console.error(error.response.statusText);
+    } else {
+      console.error('Error fetching book details:', error);
+    } 
   }
 });
 

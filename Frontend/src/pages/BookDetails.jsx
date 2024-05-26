@@ -2,7 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf';
-import '../styles/BookDetails.css'; // Justera sökvägen enligt din mappstruktur
+import '../styles/BookDetails.css';
+import ErrorMessage from '../components/ErrorMessage'; // Importerar felmeddelanden
 
 export default function BookDetails() {
   const { bookId } = useParams();
@@ -11,6 +12,7 @@ export default function BookDetails() {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(1);
+  const [bookError, setBookError] = useState('');
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -19,6 +21,10 @@ export default function BookDetails() {
         setBook(response.data);
       } catch (error) {
         console.error('Error fetching book details:', error);
+        setBookError({
+          status: error.response.status,
+          statusText: error.response.statusText
+        });
       }
     };
 
@@ -79,12 +85,18 @@ export default function BookDetails() {
   };
 
   if (!book) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        Loading...
+        <ErrorMessage error={bookError} />
+      </div>
+    );
   }
 
   return (
     <div className="book-details-container">
       <h1>{book.title}</h1>
+      <ErrorMessage error={bookError} />
       {book.cover_i && (
         <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} />
       )}
