@@ -35,10 +35,10 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1>Profile</h1>
+      <h1>Profil</h1>
       {user && (
         <div>
-          <p>Welcome, {user.name}, ID user: {user.id}!</p>
+          <p>Välkommen, {user.name}, ID user: {user.id}!</p>
         </div>
       )}
       <form onSubmit={handleSearch}>
@@ -46,14 +46,14 @@ export default function Dashboard() {
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search for books..."
+          placeholder="Sök efter böcker..."
         />
         <button
           type="button"
           className="advanced-search-button"
           onClick={() => setShowAdvanced(!showAdvanced)}
         >
-          Advanced Search
+          Avancerad sökning
         </button>
         {showAdvanced && (
           <div className="advanced-search-fields">
@@ -61,13 +61,13 @@ export default function Dashboard() {
               type="text"
               value={author}
               onChange={(e) => setAuthor(e.target.value)}
-              placeholder="Author name..."
+              placeholder="Författare..."
             />
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Book title..."
+              placeholder="Titel..."
             />
             <input
               type="text"
@@ -77,7 +77,7 @@ export default function Dashboard() {
             />
           </div>
         )}
-        <button type="submit">Search</button>
+        <button type="submit">Sök</button>
       </form>
       <div className="bookResult">
         {books.length > 0 && (
@@ -87,8 +87,8 @@ export default function Dashboard() {
                 <h3>
                   <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link>
                 </h3>
-                <p>Author: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
-                <p>First published: {book.first_publish_year}</p>
+                <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
+                <p>Publicerad: {book.first_publish_year}</p>
               </li>
             ))}
           </ul>
