@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf'; // Se till att sökvägen är korrekt
 import '../styles/dashboard.css'; // Importerar CSS-fil.
@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [isbn, setIsbn] = useState('');// Tillstånd för ISBN
   const [books, setBooks] = useState([]);// Tillstånd för böcker
   const [showAdvanced, setShowAdvanced] = useState(false); // Tillstånd för att visa/dölja avancerade sökfält
+  const navigate = useNavigate(); // For navigation
 
   // Funktion för att hantera sökningen
   const handleSearch = async (e) => {
@@ -33,12 +34,28 @@ export default function Dashboard() {
     }
   };
 
+  // Funktion för att spara den klickade boken till localStorage
+  const saveBookToLocalStorage = (book) => {
+    const savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
+    const newBook = {
+      id: book.key,
+      title: book.title
+    };
+    savedBooks.push(newBook);
+    localStorage.setItem('savedBooks', JSON.stringify(savedBooks));
+  };
+
+  const handleBookClick = (book) => {
+    saveBookToLocalStorage(book);
+    navigate(`/book/${book.key.replace('/works/', '')}`);
+  };
+
   return (
     <div className="dashboard-container">
       <h1>Profil</h1>
       {user && (
         <div>
-          <p>Välkommen, {user.name}, ID user: {user.id}!</p>
+          <p>Välkommen, {user.name}!</p>
         </div>
       )}
       <form onSubmit={handleSearch}>
@@ -85,9 +102,14 @@ export default function Dashboard() {
             {books.map((book) => (
               <li key={book.key}>
                 <h3>
-                  <Link to={`/book/${book.key.replace('/works/', '')}`}>{book.title}</Link>
+                  <span
+                    onClick={() => handleBookClick(book)}
+                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                  >
+                    {book.title}
+                  </span>
                 </h3>
-                <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p> 
+                <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
                 <p>Publicerad: {book.first_publish_year}</p>
                 {book.cover_id ? (
                   <img
