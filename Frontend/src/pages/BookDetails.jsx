@@ -3,7 +3,8 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf';
 import '../styles/BookDetails.css';
-import ErrorMessage from '../components/ErrorMessage'; // Importerar felmeddelanden
+import ErrorMessage from '../components/ErrorMessage';
+import FullStar from '../img/FullStar.png';
 
 export default function BookDetails() {
   const { bookId } = useParams();
@@ -13,6 +14,7 @@ export default function BookDetails() {
   const [reviewText, setReviewText] = useState('');
   const [rating, setRating] = useState(1);
   const [bookError, setBookError] = useState('');
+  const [voteError, setVoteError] = useState('');
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -62,26 +64,36 @@ export default function BookDetails() {
     }
   };
 
-  const handleLike = async (reviewId) => {
+  const handleVote = async (reviewId, type) => {
+    if (!user || !user.id) {
+      console.error('User is not logged in or user ID is missing');
+      return;
+    }
+
     try {
-      const response = await axios.post(`/reviews/${reviewId}/like`, {
+      const response = await axios.post(`/reviews/${reviewId}/${type}`, {
         userId: user.id
       });
       setReviews(reviews.map(review => review._id === reviewId ? response.data : review));
+      setVoteError(''); // Reset the error message
     } catch (error) {
-      console.error('Error liking review:', error);
+      console.error(`Error ${type}ing review:`, error);
+      if (error.response && error.response.data) {
+        setVoteError(error.response.data.error);
+      } else {
+        setVoteError('An error occurred');
+      }
     }
   };
 
-  const handleDislike = async (reviewId) => {
-    try {
-      const response = await axios.post(`/reviews/${reviewId}/dislike`, {
-        userId: user.id
-      });
-      setReviews(reviews.map(review => review._id === reviewId ? response.data : review));
-    } catch (error) {
-      console.error('Error disliking review:', error);
-    }
+  const renderStars = (rating) => {
+    return (
+      <div className="star-rating">
+        {[...Array(rating)].map((_, index) => (
+          <img key={index} src={FullStar} alt="star" className="star" />
+        ))}
+      </div>
+    );
   };
 
   if (!book) {
@@ -127,15 +139,16 @@ export default function BookDetails() {
       )}
       
       <h2>Recensioner</h2>
+      {voteError && <p className="error">{voteError}</p>}
       <div className="reviews-container">
         {reviews.length > 0 ? (
           reviews.map(review => (
             <div className="review" key={review._id}>
               <p>{review.review_text}</p>
-              <p>Betyg: {review.rating}</p>
+              <div className="rating">Betyg: {renderStars(review.rating)}</div>
               <p>Av: {review.user.name}</p>
-              <button onClick={() => handleLike(review._id)}>Gilla ({review.likes.length})</button>
-              <button onClick={() => handleDislike(review._id)}>Ogilla ({review.dislikes.length})</button>
+              <button onClick={() => handleVote(review._id, 'like')}>Gilla ({review.likes.length})</button>
+              <button onClick={() => handleVote(review._id, 'dislike')}>Ogilla ({review.dislikes.length})</button>
             </div>
           ))
         ) : (

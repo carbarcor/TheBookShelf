@@ -2,6 +2,7 @@ const express = require('express');
 const Review = require('../models/Review'); // Importerar Review-modellen
 const authenticateToken = require('../middleware/auth');// Importerar middleware för autentisering
 const router = express.Router();// Skapar en ny router för att hantera recensioner
+const { likeReview, dislikeReview } = require('../controllers/reviewController');
 
 // Aggiungere una nuova recensione
 router.post('/reviews', authenticateToken, async (req, res) => {
@@ -57,5 +58,73 @@ router.get('/reviews/:bookId', async (req, res) => {
     res.status(500).json({ error: 'Error fetching reviews' });// Skicka ett felmeddelande om något går fel
   }
 });
+
+router.post('/reviews/:reviewId/like', async (req, res) => {
+  const { reviewId } = req.params;
+  const { userId } = req.body;
+
+  console.log(`Received like request for reviewId: ${reviewId} from userId: ${userId}`);
+
+  try {
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    // if like remove dislike
+    if (review.dislikes.includes(userId)) {
+      review.dislikes.pull(userId);
+    }
+
+    // if dislike, remove like
+    if (review.likes.includes(userId)) {
+      review.likes.pull(userId);
+    } else {
+      review.likes.push(userId);
+    }
+
+    await review.save();
+
+    res.json(review);
+  } catch (error) {
+    console.error('Error liking review:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+
+router.post('/reviews/:reviewId/dislike', async (req, res) => {
+  const { reviewId } = req.params;
+  const { userId } = req.body;
+
+  console.log(`Received dislike request for reviewId: ${reviewId} from userId: ${userId}`);
+
+  try {
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    // if dislike remove like
+    if (review.likes.includes(userId)) {
+      review.likes.pull(userId);
+    }
+
+    // If like remove dislike
+    if (review.dislikes.includes(userId)) {
+      review.dislikes.pull(userId);
+    } else {
+      review.dislikes.push(userId);
+    }
+
+    await review.save();
+
+    res.json(review);
+  } catch (error) {
+    console.error('Error disliking review:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
 
 module.exports = router; // Exporterar routern så att den kan användas i andra delar av applikationen
