@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';// Importerar React och nöd
 import axios from 'axios';// Importerar axios för att skicka HTTP-förfrågningar
 import { UserContext } from '../../Shelf/userShelf'; // Importerar UserContext för att hantera användardata
 import { useNavigate } from 'react-router-dom';// Importerar useNavigate för att navigera mellan sidor
+import '../styles/login.css'; 
 
 export default function Login() {
   const [data, setData] = useState({
@@ -49,7 +50,7 @@ export default function Login() {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <form onSubmit={loginUser}>
         <label>E-mail</label>
         <input
