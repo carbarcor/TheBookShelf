@@ -134,12 +134,6 @@ export default function BookDetails() {
     <div className="book-details-container">
       <h1>{book.title}</h1>
       <ErrorMessage error={bookError} />
-      {book.cover_i && (
-        <img src={`https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`} alt={book.title} />
-      )}
-      <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
-      <p>Publicerad: {book.first_publish_year}</p>
-      <p>ISBN: {book.isbn ? book.isbn.join(', ') : 'N/A'}</p>
       <p className="description">Description: {book.description || 'No description available'}</p>
       
       <h2>Lämna en recension</h2>

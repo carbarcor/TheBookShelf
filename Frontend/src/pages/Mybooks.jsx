@@ -27,7 +27,7 @@ export default function Mybooks() {
   };
 
   return (
-    <div>
+    <div className="books-box">
       <h1>Mina böcker</h1>
       <button className="delete-all-button" onClick={handleDeleteAll}>Radera alla böcker</button>
       <p>Här visas de böcker du har sparat.</p>

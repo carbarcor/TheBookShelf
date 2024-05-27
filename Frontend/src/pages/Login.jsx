@@ -51,6 +51,7 @@ export default function Login() {
 
   return (
     <div className="login-container">
+      <h1>Logga in!</h1>
       <form onSubmit={loginUser}>
         <label>E-mail</label>
         <input
