@@ -30,7 +30,7 @@ export default function Mybooks() {
     <div>
       <h1>Mina böcker</h1>
       <button className="delete-all-button" onClick={handleDeleteAll}>Radera alla böcker</button>
-      <p>Här visas de böcker du har sparat.</p>
+      <p>Här visas de böcker du har besökt.</p>
       <div className="books-container">
         {savedBooks.length > 0 ? (
           savedBooks.map((book, index) => (
