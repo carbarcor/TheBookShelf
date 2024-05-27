@@ -15,6 +15,7 @@ export default function BookDetails() {
   const [rating, setRating] = useState(1);
   const [bookError, setBookError] = useState('');
   const [voteError, setVoteError] = useState('');
+  const [deleteError, setDeleteError] = useState(''); 
 
   useEffect(() => {
     const fetchBookDetails = async () => {
@@ -71,6 +72,7 @@ export default function BookDetails() {
     }
 
     try {
+      console.log(`Sending ${type} request for reviewId: ${reviewId} from userId: ${user.id}`);
       const response = await axios.post(`/reviews/${reviewId}/${type}`, {
         userId: user.id
       });
@@ -82,6 +84,29 @@ export default function BookDetails() {
         setVoteError(error.response.data.error);
       } else {
         setVoteError('An error occurred');
+      }
+    }
+  };
+
+  const handleDelete = async (reviewId) => {
+    if (!user || !user.id) {
+      console.error('User is not logged in or user ID is missing');
+      return;
+    }
+
+    try {
+      console.log(`Sending delete request for reviewId: ${reviewId} from userId: ${user.id}`);
+      await axios.delete(`/reviews/${reviewId}`, {
+        data: { userId: user.id }
+      });
+      setReviews(reviews.filter(review => review._id !== reviewId));
+      setDeleteError(''); 
+    } catch (error) {
+      console.error(`Error deleting review:`, error);
+      if (error.response && error.response.data) {
+        setDeleteError(error.response.data.error);
+      } else {
+        setDeleteError('An error occurred');
       }
     }
   };
@@ -140,6 +165,7 @@ export default function BookDetails() {
       
       <h2>Recensioner</h2>
       {voteError && <p className="error">{voteError}</p>}
+      {deleteError && <p className="error">{deleteError}</p>}
       <div className="reviews-container">
         {reviews.length > 0 ? (
           reviews.map(review => (
@@ -149,6 +175,9 @@ export default function BookDetails() {
               <p>Av: {review.user.name}</p>
               <button onClick={() => handleVote(review._id, 'like')}>Gilla ({review.likes.length})</button>
               <button onClick={() => handleVote(review._id, 'dislike')}>Ogilla ({review.dislikes.length})</button>
+              {user && user.id === review.user._id && (
+                <button onClick={() => handleDelete(review._id)}>Ta bort recension</button>
+              )}
             </div>
           ))
         ) : (

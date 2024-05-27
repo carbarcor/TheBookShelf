@@ -126,5 +126,28 @@ router.post('/reviews/:reviewId/dislike', async (req, res) => {
   }
 });
 
+router.delete('/reviews/:reviewId', async (req, res) => {
+  const { reviewId } = req.params;
+  const { userId } = req.body;
+
+  console.log(`Received delete request for reviewId: ${reviewId} from userId: ${userId}`);
+
+  try {
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+
+    if (review.user.toString() !== userId) {
+      return res.status(403).json({ error: 'You can only delete your own reviews' });
+    }
+
+    await Review.findByIdAndDelete(reviewId);
+    res.json({ message: 'Review deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting review:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
 
 module.exports = router; // Exporterar routern så att den kan användas i andra delar av applikationen
