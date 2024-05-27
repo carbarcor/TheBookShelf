@@ -60,7 +60,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-container">
-      <h1>Dashboard</h1>
+      <h1>Biblioteket</h1>
       {user && (
         <div>
           <p>Välkommen, {user.name}!</p>

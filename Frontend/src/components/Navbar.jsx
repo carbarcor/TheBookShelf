@@ -32,14 +32,14 @@ export default function Navbar() {
         {user ? (
           <>
             <Link to='/mybooks'>Mina böcker</Link>
-            <Link to='/dashboard'>Dashboard</Link>
-            <a href="/logout" onClick={handleLogout}>Logout</a>
+            <Link to='/dashboard'>Sök böcker</Link>
+            <a href="/logout" onClick={handleLogout}>Logga ut</a>
           </>
         ) : (
           <>
-            <Link to='/'>Home</Link>
-            <Link to='/signup'>Register</Link>
-            <Link to='/login'>Login</Link>
+            <Link to='/'>Start</Link>
+            <Link to='/signup'>Registrera</Link>
+            <Link to='/login'>Logga in</Link>
           </>
         )}
       </div>

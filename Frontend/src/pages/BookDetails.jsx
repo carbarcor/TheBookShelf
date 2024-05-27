@@ -134,7 +134,7 @@ export default function BookDetails() {
     <div className="book-details-container">
       <h1>{book.title}</h1>
       <ErrorMessage error={bookError} />
-      <p className="description">Description: {book.description || 'No description available'}</p>
+      <p className="description">Beskrivning: {book.description || 'No description available'}</p>
       
       <h2>Lämna en recension</h2>
       {user ? (
@@ -154,7 +154,7 @@ export default function BookDetails() {
           <button type="submit">Lämna recension</button>
         </form>
       ) : (
-        <p>Please log in to leave a review.</p>
+        <p>Vänligen logga in för att lämna en recension.</p>
       )}
       
       <h2>Recensioner</h2>
@@ -175,7 +175,7 @@ export default function BookDetails() {
             </div>
           ))
         ) : (
-          <p>No reviews yet.</p>
+          <p>Recensioner saknas.</p>
         )}
       </div>
     </div>
