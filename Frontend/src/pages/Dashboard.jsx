@@ -40,7 +40,7 @@ export default function Dashboard() {
     }
   };
 
-  // Funzione för att spara den klickade boken till localStorage
+  // för att spara den klickade boken till localStorage
   const saveBookToLocalStorage = (book) => {
     const savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
     const newBook = {

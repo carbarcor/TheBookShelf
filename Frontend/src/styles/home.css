@@ -1,3 +1,25 @@
+/* src/styles/home.css */
+
+.home-container {
+position: relative;
+height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+text-align: center;
+color: #ffffff;
+overflow: hidden;
+}
+
+
+.aboutUs {
+background-color: rgba(0, 0, 0, 0.6);
+color: white;
+padding: 20px;
+border-radius: 10px;
+z-index: 1;
+}
+
 li {
     list-style: none;
 }

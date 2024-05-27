@@ -4,8 +4,9 @@ import '../styles/home.css';
 export default function Home() {
   return (
     <div>
-      <h1>The Book Shelf</h1>
+
       <div className="aboutUs">
+      <h1>The Book Shelf</h1>
         <h2>Välkommen till The Book Shelf – Din plats för bokrecensioner!</h2>
         <p>Upptäck, läs och dela dina åsikter om böcker. Med vår tjänst kan du:</p>
         <ul>
