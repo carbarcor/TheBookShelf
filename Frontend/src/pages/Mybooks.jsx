@@ -15,9 +15,21 @@ export default function Mybooks() {
     navigate(`/book/${bookId.replace('/works/', '')}`);
   };
 
+  const handleDeleteBook = (bookId) => {
+    const updatedBooks = savedBooks.filter(book => book.id !== bookId);
+    setSavedBooks(updatedBooks);
+    localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
+  };
+
+  const handleDeleteAll = () => {
+    setSavedBooks([]);
+    localStorage.removeItem('savedBooks');
+  };
+
   return (
     <div>
       <h1>Mina böcker</h1>
+      <button className="delete-all-button" onClick={handleDeleteAll}>Radera alla böcker</button>
       <p>Här visas de böcker du har sparat.</p>
       <div className="books-container">
         {savedBooks.length > 0 ? (
@@ -25,7 +37,6 @@ export default function Mybooks() {
             <div
               key={index}
               className="book-card"
-              onClick={() => handleCardClick(book.id)}
               style={{
                 backgroundImage: book.cover_id
                   ? `url(https://covers.openlibrary.org/b/id/${book.cover_id}-L.jpg)`
@@ -35,8 +46,11 @@ export default function Mybooks() {
                 cursor: 'pointer',
               }}
             >
-              <div className="book-card-content">
+              <div className="book-card-content" onClick={() => handleCardClick(book.id)}>
                 <h3>{book.title}</h3>
+              </div>
+              <div className="delete-icon" onClick={() => handleDeleteBook(book.id)}>
+                <img src="/src/img/bin.png" alt="Delete" style={{ width: '100%', height: '100%' }} />
               </div>
             </div>
           ))

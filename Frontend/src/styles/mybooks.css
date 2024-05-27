@@ -1,41 +1,67 @@
 .books-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .book-card {
-    position: relative;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    width: 200px;
-    height: 300px; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    color: white; 
-    display: flex;
-    align-items: flex-end; 
-    justify-content: center;
-    background-color: rgba(0, 0, 0, 0.5); 
-    cursor: pointer;
-  }
-  
-  .book-card:hover {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
-  
-  .book-card-content {
-    background: rgba(0, 0, 0, 0.5); 
-    width: 100%;
-    padding: 10px;
-    text-align: center;
-  }
-  
-  .book-card h3 {
-    margin: 0;
-  }
-  
-  .book-card p {
-    margin: 5px 0 0;
-  }
-  
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.book-card {
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  width: 200px;
+  height: 300px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+  color: white; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  cursor: pointer;
+}
+
+.book-card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.book-card-content {
+  background: rgba(0, 0, 0, 0.5); 
+  width: 90%;
+  padding: 10px;
+  text-align: center;
+}
+
+.book-card h3 {
+  margin: 0;
+}
+
+.book-card p {
+  margin: 5px 0 0;
+}
+
+.delete-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 24px;
+  height: 24px;
+  background-color: white; /* Sfondo bianco per l'icona */
+  border-radius: 50%; /* Forma circolare */
+  padding: 5px; /* Spazio interno per dare respiro all'icona */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sfumatura */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.delete-all-button {
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  margin: 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 16px;
+}
