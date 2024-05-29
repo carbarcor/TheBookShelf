@@ -123,7 +123,7 @@ export default function BookDetails() {
 
   if (!book) {
     return (
-      <div>
+      <div className="loading">
         Loading...
         <ErrorMessage error={bookError} />
       </div>
@@ -137,7 +137,21 @@ export default function BookDetails() {
     <div className="book-details-container">
       <h1>{book.title}</h1>
       <ErrorMessage error={bookError} />
-      <p className="description">Beskrivning: {description || 'Ingen beskrivning tillgänglig.'}</p>
+
+      {book.cover_id ? (
+        <img
+          src={`https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`}
+          alt={`Cover of ${book.title}`}
+        />
+        ) : (
+          <p>No cover available</p>
+        )}
+
+      <p>Författare: {book.author_names.length > 0 ? book.author_names.join(', ') : 'N/A'}</p>
+      <p>Först publicerad: {book.first_publish_year || 'N/A'}</p>
+      <p>ISBN: {book.isbn.length > 0 ? book.isbn.join(', ') : 'N/A'}</p>
+      
+      <p className="description">{description || 'Ingen beskrivning tillgänglig.'}</p>
       
       <h2>Lämna en recension</h2>
       {user ? (

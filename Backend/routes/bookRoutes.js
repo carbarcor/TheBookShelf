@@ -49,15 +49,48 @@ router.get('/book/:id', async (req, res) => {
     // Skicka en GET-förfrågan till Open Library API för att hämta bokdetaljer
     const response = await axios.get(`https://openlibrary.org/works/${id}.json`);
     const bookDetails = response.data;
-    console.log(bookDetails)
+    console.log('Book details:', bookDetails)
 
     // Dra ut det första ID:et ur arrayn "covers"
     const coverId = bookDetails.covers && bookDetails.covers.length > 0 ? bookDetails.covers[0] : null;
-
     console.log('Cover id:', coverId)
+
+    let authorDetails = [];
+    let publishDetails = null;
+    let isbnDetails = [];
+
+    if (bookDetails.authors && bookDetails.authors.length > 0) {
+      authorDetails = await Promise.all(
+        bookDetails.authors.map(async author => {
+          const authorRes = await axios.get(`https://openlibrary.org${author.author.key}.json`);
+          return authorRes.data.name;
+        })
+      );
+    }
+
+    // Fetch edition data using works API
+    const worksResponse = await axios.get(`https://openlibrary.org/works/${id}/editions.json`);
+    const editionsData = worksResponse.data;
+    console.log('Editions data:', editionsData);
+
+    // Extract publish year and ISBN from edition data
+    if (editionsData && editionsData.length > 0) {
+      const editionData = editionsData[0]; // Assuming you're interested in the first edition
+      if (editionData && editionData.publish_date) {
+        publishDetails = editionData.publish_date;
+      }
+
+      if (editionData && editionData.isbn) {
+        isbnDetails = editionData.isbn;
+      }
+    }
+
     // Skicka tillbaka svaret som JSON
     res.json({
       ...bookDetails,
+      author_names: authorDetails,
+      first_published_year: publishDetails,
+      isbn: isbnDetails,
       cover_id: coverId
     })
   } catch (error) {
