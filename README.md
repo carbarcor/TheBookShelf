@@ -15,7 +15,7 @@ TheBookShelf is a web application that allows users to search for and review boo
 
 ## Features
 - User authentication and authorization
-- Search for books by title, author, and/or ISBN.
+- Search for books by title, author, and/or ISBN
 - View book details and reviews
 - Add and manage reviews
 - Responsive design
@@ -57,7 +57,11 @@ npm install
 
 3. Set up environment variables:
 
-Create a .env file in the server directory (backend-folder) and add the keys provided by us.
+Create a .env file in the server directory (backend-folder) and add the keys provided by us, according to:
+```bash
+MONGO_URL =
+JWT_SECRET =
+```
 
 4. Run the application:
 
@@ -78,7 +82,7 @@ The application should now be running at http://localhost:5173.
 ## Usage
 - Register/Login:
 Create an account or log in if you already have one.
-- Searcg Books:
+- Search Books:
 Navigate to the dashboard and search for books.
 - View Books:
 Browse the book list and click on a book to see its details and reviews.
