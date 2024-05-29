@@ -28,6 +28,7 @@ router.get('/search', async (req, res) => {
       first_publish_year: book.first_publish_year,
       cover_id: book.cover_i
     }));
+
     // Skicka tillbaka svaret som JSON
     res.json({ docs: books })
   } catch (error) {
@@ -53,12 +54,8 @@ router.get('/book/:id', async (req, res) => {
 
     // Dra ut det första ID:et ur arrayn "covers"
     const coverId = bookDetails.covers && bookDetails.covers.length > 0 ? bookDetails.covers[0] : null;
-    console.log('Cover id:', coverId)
 
     let authorDetails = [];
-    let publishDetails = null;
-    let isbnDetails = [];
-
     if (bookDetails.authors && bookDetails.authors.length > 0) {
       authorDetails = await Promise.all(
         bookDetails.authors.map(async author => {
@@ -68,29 +65,16 @@ router.get('/book/:id', async (req, res) => {
       );
     }
 
-    // Fetch edition data using works API
-    const worksResponse = await axios.get(`https://openlibrary.org/works/${id}/editions.json`);
-    const editionsData = worksResponse.data;
-    console.log('Editions data:', editionsData);
-
-    // Extract publish year and ISBN from edition data
-    if (editionsData && editionsData.length > 0) {
-      const editionData = editionsData[0]; // Assuming you're interested in the first edition
-      if (editionData && editionData.publish_date) {
-        publishDetails = editionData.publish_date;
-      }
-
-      if (editionData && editionData.isbn) {
-        isbnDetails = editionData.isbn;
-      }
-    }
+    // Hämta utgivningsår via Search-API:et
+    const searchResponse = await axios.get(`https://openlibrary.org/search.json?q=${encodeURIComponent(bookDetails.title)}&author=${encodeURIComponent(authorDetails.join(','))}`);
+    const searchResults = searchResponse.data.docs.filter(book => book.key === `/works/${id}`);
+    const publishDetails = searchResults.length > 0 && searchResults[0].first_publish_year ? searchResults[0].first_publish_year : null;
 
     // Skicka tillbaka svaret som JSON
     res.json({
       ...bookDetails,
       author_names: authorDetails,
       first_published_year: publishDetails,
-      isbn: isbnDetails,
       cover_id: coverId
     })
   } catch (error) {

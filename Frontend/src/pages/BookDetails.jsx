@@ -144,12 +144,11 @@ export default function BookDetails() {
           alt={`Cover of ${book.title}`}
         />
         ) : (
-          <p>No cover available</p>
+          <p>Inget omslag tillgängligt</p>
         )}
 
       <p>Författare: {book.author_names.length > 0 ? book.author_names.join(', ') : 'N/A'}</p>
-      <p>Först publicerad: {book.first_publish_year || 'N/A'}</p>
-      <p>ISBN: {book.isbn.length > 0 ? book.isbn.join(', ') : 'N/A'}</p>
+      <p>Utgiven: {book.first_published_year || 'N/A'}</p>
       
       <p className="description">{description || 'Ingen beskrivning tillgänglig.'}</p>
       

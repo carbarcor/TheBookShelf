@@ -119,7 +119,7 @@ export default function Dashboard() {
                   </span>
                 </h3>
                 <p>Författare: {book.author_name ? book.author_name.join(', ') : 'N/A'}</p>
-                <p>Publicerad: {book.first_publish_year}</p>
+                <p>Utgiven: {book.first_publish_year}</p>
                 {book.cover_id ? (
                   <img
                     src={`https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`}
