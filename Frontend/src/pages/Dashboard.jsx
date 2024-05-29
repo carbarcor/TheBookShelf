@@ -27,7 +27,7 @@ export default function Dashboard() {
           author,
           title,
           isbn,
-          limit: 5 // Begränsa resultaten till 5
+          limit: 10 // Begränsa resultaten till 10
         }
       });
       setBooks(response.data.docs);// Uppdatera tillståndet med de hämtade böckerna
@@ -113,7 +113,7 @@ export default function Dashboard() {
                 <h3>
                   <span
                     onClick={() => handleBookClick(book)}
-                    style={{ cursor: 'pointer', color: 'blue', textDecoration: 'underline' }}
+                    style={{ cursor: 'pointer' }}
                   >
                     {book.title}
                   </span>
