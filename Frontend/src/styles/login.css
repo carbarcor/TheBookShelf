@@ -1,5 +1,6 @@
 .login-container {
     max-width: 600px;
+    width: 336px;
     margin: 0 auto;
     padding: 20px;
     border-radius: 8px;
@@ -49,3 +50,13 @@
     text-align: center;
   }
   
+  @media (max-width: 768px) {
+    .login-container {
+      max-width: 600px;
+      width: 210px;
+      margin: 0 auto;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: white;
+    }
+  }  
