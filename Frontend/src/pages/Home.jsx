@@ -14,7 +14,8 @@ export default function Home() {
           <li>Läsa andras recensioner och hitta nya spännande titlar</li>
           <li>Gilla eller ogilla recensioner för att hitta de bästa tipsen</li>
         </ul>
-        <p>Registrera dig gratis och logga in för att börja använda Bokhyllan idag. Gör läsupplevelsen till en delad resa och hitta din nästa favoritbok hos oss!</p>
+        <p>Registrera dig gratis och logga in för att börja använda The Book Shelf idag. </p>
+        <p>Gör läsupplevelsen till en delad resa och hitta din nästa favoritbok hos oss!</p>
       </div>
     </div>
   );

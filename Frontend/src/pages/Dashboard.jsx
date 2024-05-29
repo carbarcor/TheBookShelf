@@ -124,9 +124,11 @@ export default function Dashboard() {
                   <img
                     src={`https://covers.openlibrary.org/b/id/${book.cover_id}-M.jpg`}
                     alt={`Cover of ${book.title}`}
+                    onClick={() => handleBookClick(book)}
+                    style={{ cursor: 'pointer'}}
                   />
                 ) : (
-                  <p>No cover available</p>
+                  <p>Inget omslag tillgängligt</p>
                 )}
               </li>
             ))}

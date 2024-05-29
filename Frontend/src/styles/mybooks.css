@@ -93,5 +93,8 @@
 @media (max-width: 767px) {
   .books-container {
     grid-template-columns: 1fr; 
+    display:flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

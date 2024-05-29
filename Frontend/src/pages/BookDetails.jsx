@@ -124,7 +124,7 @@ export default function BookDetails() {
   if (!book) {
     return (
       <div className="loading">
-        Boken laddas...
+        <div className="loader"></div>
         <ErrorMessage error={bookError} />
       </div>
     );
@@ -147,8 +147,8 @@ export default function BookDetails() {
           <p>Inget omslag tillgängligt</p>
         )}
 
-      <p>Författare: {book.author_names.length > 0 ? book.author_names.join(', ') : 'N/A'}</p>
-      <p>Utgiven: {book.first_published_year || 'N/A'}</p>
+      <p className="author">Författare: {book.author_names.length > 0 ? book.author_names.join(', ') : 'N/A'}</p>
+      <p className="publish-year">Utgiven: {book.first_published_year || 'N/A'}</p>
       
       <p className="description">{description || 'Ingen beskrivning tillgänglig.'}</p>
       

@@ -26,6 +26,10 @@
   margin: 10px 0;
 }
 
+.book-details-container .author, .publish-year {
+  font-weight: bold;
+}
+
 .book-details-container .description {
   font-style: italic;
   color: #555;
@@ -120,5 +124,22 @@
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
-  text-align: left;
+}
+
+.loader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side,#242742 90%,#23187a00);
+  background: 
+    var(--_g) 0%   50%,
+    var(--_g) 50%  50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
+}
+@keyframes l3 {
+    20%{background-position:0%   0%, 50%  50%,100%  50%}
+    40%{background-position:0% 100%, 50%   0%,100%  50%}
+    60%{background-position:0%  50%, 50% 100%,100%   0%}
+    80%{background-position:0%  50%, 50%  50%,100% 100%}
 }
