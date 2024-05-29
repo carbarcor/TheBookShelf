@@ -130,8 +130,7 @@ export default function BookDetails() {
     );
   }
 
-  //Felhantering för tomma bok-sidor.
-  // Kontrollerar om book.description är ett objekt och använder dess value-fält, annars används den direkt.
+  //Felhantering för tomma bok-sidor. Kontrollerar om book.description är ett objekt och använder dess value-fält, annars används den direkt.
   const description = typeof book.description === 'object' ? book.description.value : book.description;
 
   return (
