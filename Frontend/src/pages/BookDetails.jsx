@@ -130,11 +130,15 @@ export default function BookDetails() {
     );
   }
 
+  //Felhantering för tomma bok-sidor.
+  // Kontrollerar om book.description är ett objekt och använder dess value-fält, annars används den direkt.
+  const description = typeof book.description === 'object' ? book.description.value : book.description;
+
   return (
     <div className="book-details-container">
       <h1>{book.title}</h1>
       <ErrorMessage error={bookError} />
-      <p className="description">Beskrivning: {book.description || 'No description available'}</p>
+      <p className="description">Beskrivning: {description || 'Ingen beskrivning tillgänglig.'}</p>
       
       <h2>Lämna en recension</h2>
       {user ? (
