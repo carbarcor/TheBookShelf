@@ -1,6 +1,7 @@
 .dashboard-container {
     background-color: white;
     border-radius: 8px;
+    width:300px;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -81,6 +82,9 @@
   
   .bookResult {
     margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
   
   .bookResult ul {
@@ -96,6 +100,7 @@
   .bookResult li h3 {
     margin: 0;
     font-size: 1.2em;
+    text-align: center;
   }
   
   .bookResult li p {
@@ -105,4 +110,9 @@
   .bookResult li a {
     padding: 0;
   }
-  
+
+  .bookResult li img {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+  }

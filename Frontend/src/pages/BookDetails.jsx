@@ -124,7 +124,7 @@ export default function BookDetails() {
   if (!book) {
     return (
       <div className="loading">
-        Loading...
+        Boken laddas...
         <ErrorMessage error={bookError} />
       </div>
     );
