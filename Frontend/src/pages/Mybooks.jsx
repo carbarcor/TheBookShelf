@@ -2,30 +2,39 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/mybooks.css'; 
 
+/*
+Sida för visning av "mina böcker"
+De böcker användaren klickat på vid sökning och sparats i localStorage
+*/
 export default function Mybooks() {
-  const [savedBooks, setSavedBooks] = useState([]);
-  const navigate = useNavigate(); // För navigationen
+  const [savedBooks, setSavedBooks] = useState([]); // Tillstånd för att lagra sparade böcker
+  const navigate = useNavigate(); // Hook för att navigera mellan sidor
 
+  // Hämta sparade böcker från localStorage
   useEffect(() => {
     const books = JSON.parse(localStorage.getItem('savedBooks')) || [];
     setSavedBooks(books);
   }, []);
 
+  // Hantera klick på book för att navigera till dess sida för bookDetails
   const handleCardClick = (bookId) => {
     navigate(`/book/${bookId.replace('/works/', '')}`);
   };
 
+  // Hantera borttagning av enskild sparad bok
   const handleDeleteBook = (bookId) => {
     const updatedBooks = savedBooks.filter(book => book.id !== bookId);
     setSavedBooks(updatedBooks);
     localStorage.setItem('savedBooks', JSON.stringify(updatedBooks));
   };
 
+  // Hantera borttagning av alla sparade böcker
   const handleDeleteAll = () => {
     setSavedBooks([]);
     localStorage.removeItem('savedBooks');
   };
 
+  // Rendera sparade böcker
   return (
     <div className="books-box">
       <h1>Mina böcker</h1>

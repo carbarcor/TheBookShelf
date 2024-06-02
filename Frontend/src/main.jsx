@@ -4,6 +4,8 @@ import App from './App.jsx'
 import './index.css'
 import {BrowserRouter as Router} from 'react-router-dom'
 
+// Entrypoint för applikationen
+// Renderar root-komponenten av React-applikationen till DOM:en
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <Router>
@@ -11,4 +13,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     </Router>
     
   </React.StrictMode>,
-)
+);

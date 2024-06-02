@@ -1,20 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import '../styles/signup.css'; // Se till att sökvägen är korrekt
+import '../styles/signup.css';
 
+// Sida för visning av registreringssida
 export default function Signup() {
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook för att navigera mellan sidor
   const [data, setData] = useState({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-  });
+  }); // Tillstånd för att lagra registreringsdata
 
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
 
+  // Funktion för att hantera registrering av användare
   const signUpUser = async (e) => {
     e.preventDefault();
     setError('');
@@ -32,7 +34,7 @@ export default function Signup() {
       // Skicka registreringsdata till servern
       const response = await axios.post('http://localhost:8000/signup', 
         { name, email, password },
-        { withCredentials: true } // This ensures that cookies are sent
+        { withCredentials: true } // Ser till att cookies skickas med
       );
       console.log('Registrering lyckades:', response.data);
       setSuccess('Registrering lyckades!');
@@ -53,6 +55,7 @@ export default function Signup() {
     }
   };
 
+  // Rendera registreringssida
   return (
     <div className="signup-container">
       <h1>Registrera dig</h1>

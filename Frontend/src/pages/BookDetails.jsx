@@ -2,10 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf';
-import '../styles/BookDetails.css';
+import '../styles/bookdetails.css';
 import ErrorMessage from '../components/ErrorMessage';
 import FullStar from '../img/FullStar.png';
 
+// Sida för visning av detaljerad bokinformation
 export default function BookDetails() {
   const { bookId } = useParams();
   const { user } = useContext(UserContext);
@@ -17,6 +18,7 @@ export default function BookDetails() {
   const [voteError, setVoteError] = useState('');
   const [deleteError, setDeleteError] = useState(''); 
 
+  // Hämta bokdetaljer och recensioner
   useEffect(() => {
     const fetchBookDetails = async () => {
       try {
@@ -44,8 +46,8 @@ export default function BookDetails() {
     fetchReviews();
   }, [bookId]);
 
+  // Funktion för att länkar i beskrivning av bok i wrappas i ett span-element
   useEffect(() => {
-    // Funktion för att wrap länkar i beskrivning av bok i ett span-element
     if (book && book.description) {
       const descElement = document.querySelector('.description');
       const description = typeof book.description === 'object' ? book.description.value : book.description;
@@ -62,6 +64,7 @@ export default function BookDetails() {
     }
   }, [book]);
 
+  // Hantering av att skicka in en recension
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!user || !user.id) {
@@ -83,6 +86,7 @@ export default function BookDetails() {
     }
   };
 
+  // Hantering av att rösta på en recension
   const handleVote = async (reviewId, type) => {
     if (!user || !user.id) {
       console.error('User is not logged in or user ID is missing');
@@ -95,7 +99,7 @@ export default function BookDetails() {
         userId: user.id
       });
       setReviews(reviews.map(review => review._id === reviewId ? response.data : review));
-      setVoteError(''); // Reset the error message
+      setVoteError('');
     } catch (error) {
       console.error(`Error ${type}ing review:`, error);
       if (error.response && error.response.data) {
@@ -106,6 +110,7 @@ export default function BookDetails() {
     }
   };
 
+  // Hantering av att ta bort en recension
   const handleDelete = async (reviewId) => {
     if (!user || !user.id) {
       console.error('User is not logged in or user ID is missing');
@@ -129,6 +134,7 @@ export default function BookDetails() {
     }
   };
 
+  // Rendera betygsstjärnor
   const renderStars = (rating) => {
     return (
       <div className="star-rating">
@@ -139,6 +145,7 @@ export default function BookDetails() {
     );
   };
 
+  // Rendera laddningssida och felmeddelande om detaljerad info om bok ej finns tillgängliga
   if (!book) {
     return (
       <div className="loading">
@@ -151,6 +158,7 @@ export default function BookDetails() {
   //Felhantering för tomma bok-sidor. Kontrollerar om book.description är ett objekt och använder dess value-fält, annars används den direkt.
   const description = typeof book.description === 'object' ? book.description.value : book.description;
 
+  // Rendering av detaljerad bokinformation och recensioner
   return (
     <div className="book-details-container">
       <h1>{book.title}</h1>

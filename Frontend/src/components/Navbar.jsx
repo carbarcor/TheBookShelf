@@ -3,13 +3,15 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf';
 
+// Komponent för meny / navbar
 export default function Navbar() {
   const { user, setUser } = useContext(UserContext);
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Hantering av utloggningsprocess
   const handleLogout = async (e) => {
-    e.preventDefault(); // Prevenire il comportamento predefinito del link
+    e.preventDefault();
     try {
       await axios.post('/logout'); 
       setUser(null);
@@ -19,10 +21,12 @@ export default function Navbar() {
     }
   };
 
+  // Öppnar eller stänger meny
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  // Renderar meny-komponenten
   return (
     <nav className="navbar">
       <div className="navbar-logo" onClick={toggleMobileMenu}>

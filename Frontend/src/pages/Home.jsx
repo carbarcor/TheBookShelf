@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/home.css';
 
+// Sida för visning av startsida
 export default function Home() {
   return (
     <div>

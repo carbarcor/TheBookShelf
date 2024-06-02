@@ -5,16 +5,17 @@ import { UserContext } from '../../Shelf/userShelf'; // Se till att sökvägen �
 import '../styles/dashboard.css'; // Importerar CSS-fil.
 import ErrorMessage from '../components/ErrorMessage'; // Importerar felmeddelanden
 
+// Sida för visning av dashboard / sökningssida
 export default function Dashboard() {
-  const { user } = useContext(UserContext);// Hämta användardata från UserContext
-  const [searchQuery, setSearchQuery] = useState('');// Tillstånd för sökfråga
-  const [author, setAuthor] = useState('');// Tillstånd för författare
-  const [title, setTitle] = useState('');// Tillstånd för boktitel
-  const [isbn, setIsbn] = useState('');// Tillstånd för ISBN
-  const [books, setBooks] = useState([]);// Tillstånd för böcker
+  const { user } = useContext(UserContext); // Hämta användardata från UserContext
+  const [searchQuery, setSearchQuery] = useState(''); // Tillstånd för sökfråga
+  const [author, setAuthor] = useState(''); // Tillstånd för författare
+  const [title, setTitle] = useState(''); // Tillstånd för boktitel
+  const [isbn, setIsbn] = useState(''); // Tillstånd för ISBN
+  const [books, setBooks] = useState([]); // Tillstånd för böcker
   const [showAdvanced, setShowAdvanced] = useState(false); // Tillstånd för att visa/dölja avancerade sökfält
   const [searchError, setSearchError] = useState(''); // Tillstånd för felmeddelanden vid sökning
-  const navigate = useNavigate(); // For navigation
+  const navigate = useNavigate(); // Hook för att navigera mellan sidor
 
   // Funktion för att hantera sökningen
   const handleSearch = async (e) => {
@@ -30,9 +31,9 @@ export default function Dashboard() {
           limit: 10 // Begränsa resultaten till 10
         }
       });
-      setBooks(response.data.docs);// Uppdatera tillståndet med de hämtade böckerna
+      setBooks(response.data.docs); // Uppdatera tillståndet med de hämtade böckerna
     } catch (error) {
-      console.error('Error fetching books:', error);// Logga eventuella fel
+      console.error('Error fetching books:', error); // Logga eventuella fel
       setSearchError({
         status: error.response.status,
         statusText: error.response.statusText
@@ -40,7 +41,7 @@ export default function Dashboard() {
     }
   };
 
-  // för att spara den klickade boken till localStorage
+  // Spara bok som klickats på i localStorage
   const saveBookToLocalStorage = (book) => {
     const savedBooks = JSON.parse(localStorage.getItem('savedBooks')) || [];
     const newBook = {
@@ -53,11 +54,13 @@ export default function Dashboard() {
   };
 
 
+  // Hanerting av klick för att spara i localStorage
   const handleBookClick = (book) => {
     saveBookToLocalStorage(book);
     navigate(`/book/${book.key.replace('/works/', '')}`);
   };
 
+  // Rendera sök-sida
   return (
     <div className="dashboard-container">
       <h1>Biblioteket</h1>
