@@ -44,6 +44,24 @@ export default function BookDetails() {
     fetchReviews();
   }, [bookId]);
 
+  useEffect(() => {
+    // Funktion för att wrap länkar i beskrivning av bok i ett span-element
+    if (book && book.description) {
+      const descElement = document.querySelector('.description');
+      const description = typeof book.description === 'object' ? book.description.value : book.description;
+  
+      // Wrap länken i ett span-element med klassen "link"
+      const updatedDescription = description.replace(/(https:\/\/[^\s]+)/g, '<span class="link">$1</span>');
+      descElement.innerHTML = updatedDescription;
+  
+      // Ersätt innehållet i span-elementet med "(...)"
+      const linkSpan = descElement.querySelector('.link');
+      if (linkSpan) {
+        linkSpan.textContent = "(...)";
+      }
+    }
+  }, [book]);
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     if (!user || !user.id) {

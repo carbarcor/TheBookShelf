@@ -1,7 +1,6 @@
 .book-details-container {
   background-color: white;
   border-radius: 8px;
-  max-width: 800px;
   margin: 0 auto;
   padding: 20px;
   text-align: left;
@@ -87,7 +86,7 @@
 }
 
 .reviews-container .review button {
-  margin-right: 10px;
+  margin: 5px;
   background-color: #f8f9fa;
   border: 1px solid #ccc;
   padding: 5px 10px;
@@ -143,4 +142,25 @@
     40%{background-position:0% 100%, 50%   0%,100%  50%}
     60%{background-position:0%  50%, 50% 100%,100%   0%}
     80%{background-position:0%  50%, 50%  50%,100% 100%}
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+  .book-details-container {
+    max-width: 800px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .book-details-container {
+    max-width: 800px;
+  }
+}
+
+/* Mobil */
+@media (max-width: 767px) {
+  .book-details-container {
+    max-width: 230px;
+  }
 }
