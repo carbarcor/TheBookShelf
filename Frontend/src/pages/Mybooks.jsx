@@ -45,8 +45,9 @@ export default function Mybooks() {
                 backgroundPosition: 'center',
                 cursor: 'pointer',
               }}
+              onClick={() => handleCardClick(book.id)}
             >
-              <div className="book-card-content" onClick={() => handleCardClick(book.id)}>
+              <div className="book-card-content">
                 <h3>{book.title}</h3>
               </div>
               <div className="delete-icon" onClick={() => handleDeleteBook(book.id)}>
