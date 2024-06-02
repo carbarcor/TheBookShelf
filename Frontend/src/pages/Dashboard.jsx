@@ -15,6 +15,7 @@ export default function Dashboard() {
   const [books, setBooks] = useState([]); // Tillstånd för böcker
   const [showAdvanced, setShowAdvanced] = useState(false); // Tillstånd för att visa/dölja avancerade sökfält
   const [searchError, setSearchError] = useState(''); // Tillstånd för felmeddelanden vid sökning
+  const [hasSearchResults, setHasSearchResults] = useState(true); // Tillstånd för om sökresultat finns
   const navigate = useNavigate(); // Hook för att navigera mellan sidor
 
   // Funktion för att hantera sökningen
@@ -31,7 +32,9 @@ export default function Dashboard() {
           limit: 10 // Begränsa resultaten till 10
         }
       });
-      setBooks(response.data.docs); // Uppdatera tillståndet med de hämtade böckerna
+      const searchResults = response.data.docs;
+      setBooks(searchResults); 
+      setHasSearchResults(searchResults.length > 0); // Uppdatera tillstånd baserat på sökresultat
     } catch (error) {
       console.error('Error fetching books:', error); // Logga eventuella fel
       setSearchError({
@@ -107,8 +110,10 @@ export default function Dashboard() {
         )}
         <button type="submit">Sök</button>
       </form>
+
       <div className="bookResult">
         <ErrorMessage error={searchError} />
+        {!hasSearchResults && <p>Inget matchade din sökning.</p>}
         {books.length > 0 && (
           <ul>
             {books.map((book) => (
