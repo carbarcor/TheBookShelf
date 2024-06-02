@@ -7,8 +7,9 @@ A simple web application for searching for and reviewing books.
 - Features
 - Installation
 - Usage
-- License
 - Technologies Used
+- Motivation for using React
+- License
   
 ## Introduction
 TheBookShelf is a web application that allows users to search for and review books. It is built using the MERN stack (MongoDB, Express, React, Node.js).
@@ -83,9 +84,6 @@ Browse the book list and click on a book to see its details and reviews.
 - Add Reviews:
 Leave a review and rating for a book after viewing its details.
 
-## License
-This project is licensed under the MIT License. See the LICENSE file for details.
-
 ## Technologies Used
 
 ### Frontend:
@@ -113,3 +111,17 @@ This project is licensed under the MIT License. See the LICENSE file for details
 - **[dotenv](https://www.npmjs.com/package/dotenv)**: A zero-dependency module that loads environment variables from a .env file. Created by Motdotla.
 - **[jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)**: A library to work with JSON Web Tokens. Created by Auth0.
 - **[mongoose](https://mongoosejs.com/)**: A MongoDB object modeling tool. Created by LearnBoost.
+
+## Motivation for using React
+We chose to use React to develop our web application because it offers a good balance between simplicity, flexibility, and performance. For us, it was important to choose a technology that was both easy for us to learn and powerful enough to handle what we wanted to build. React's use of JSX makes the code intuitive and easy to understand, which meant that we could quickly get started with development. In comparison, Angular is harder to learn as a beginner and with its inclusion of TypeScript, we felt it would be too complex for our needs as a small beginner team working on a small scale web application.
+
+React's large and active community is also a significant factor. In comparison to Vue, also a framework that is considered easy to learn as a beginner, the Vue community is not as big or developed. The extensive documentation, tutorials, and available third-party components made us choose React in favour of Vue, as we wanted to build a full stack JavaScript application. The available tutorials and community support around MERN in comparison to MEVN was simply larger, which was an important part of our decision.
+
+The flexibility of React, as a library rather than a complete framework, gave us the freedom to choose tools for routing and state management ourselves, something that we perceived Angular and Vue did not offer to the same extent. We also appreciated React's modular architecture, which makes it easy to isolate and manage components, facilitating scalability.
+
+Performance in React was another crucial factor for us. By using a Virtual DOM, React optimizes updates to the user interface, giving us faster renderings. This was particularly important for us because our service required dynamic and updated interfaces.
+
+In summary, React provided us with the simplicity, flexibility, performance, and support we felt we needed to develop our web application. Therefore, React felt like the best choice compared to Vue and Angular.
+
+## License
+This project is licensed under the MIT License. See the LICENSE file for details.
