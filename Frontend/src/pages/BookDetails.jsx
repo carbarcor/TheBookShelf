@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { UserContext } from '../../Shelf/userShelf';
-import '../styles/bookdetails.css';
+import '../styles/BookDetails.css';
 import ErrorMessage from '../components/ErrorMessage';
 import FullStar from '../img/FullStar.png';
 
