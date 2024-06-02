@@ -5,39 +5,39 @@ const mongoose = require('mongoose'); // Importerar Mongoose för att ansluta ti
 const cookieParser = require('cookie-parser'); // Importerar cookie-parser för att hantera cookies
 const authRoutes = require('./routes/authRoutes'); // Importerar autentiseringsrutter
 const bookRoutes = require('./routes/bookRoutes'); // Importerar bokrutter
-const reviewRoutes = require('./routes/reviewRoutes');// Importerar recensionsrutter
+const reviewRoutes = require('./routes/reviewRoutes'); // Importerar recensionsrutter
 
-const app = express();// Skapar en Express-applikation
+const app = express(); // Skapar en Express-applikation
 
 // Middleware
-app.use(express.json());// Middleware för att parsa JSON-begäranden
-app.use(cookieParser());// Middleware för att parsa cookies
+app.use(express.json()); // Middleware för att parsa JSON-begäranden
+app.use(cookieParser()); // Middleware för att parsa cookies
 
 // CORS-konfigurationen
 const corsOptions = {
-  origin: 'http://localhost:5173',// Tillåt begäranden från denna origin
+  origin: 'http://localhost:5173', // Tillåt begäranden från denna origin
   credentials: true, // Detta är nödvändigt för att skicka cookies eller headers
 };
 
-app.use(cors(corsOptions));// Använd CORS-middleware med konfigurerade alternativ
+app.use(cors(corsOptions)); // Använd CORS-middleware med konfigurerade alternativ
 
 // MongoDB konnectionen
 mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log('Database connected'))// Logga ett meddelande om anslutningen lyckas
-  .catch((err) => console.log('DB not connected', err));// Logga ett felmeddelande om anslutningen misslyckas
+  .then(() => console.log('Database connected')) // Logga ett meddelande om anslutningen lyckas
+  .catch((err) => console.log('DB not connected', err)); // Logga ett felmeddelande om anslutningen misslyckas
 
-//Loggning av requests för felsökning
+// Loggning av requests för felsökning
 app.use((req, res, next) => {
   console.log(`${req.method} ${req.url}`);
   next();
 });
 
 // Använda rutter  
-app.use('/', authRoutes);// Använd autentiseringsrutter
-app.use('/', bookRoutes);// Använd bokrutter
-app.use('/', reviewRoutes);// Använd recensionsrutter
+app.use('/', authRoutes); // Använd autentiseringsrutter
+app.use('/', bookRoutes); // Använd bokrutter
+app.use('/', reviewRoutes); // Använd recensionsrutter
 
 const port = 8000;// Porten som servern kommer att lyssna på
 app.listen(port, async () => {
-  console.log(`Server on ${port}`);// Logga ett meddelande när servern är igång
+  console.log(`Server on ${port}`); // Logga ett meddelande när servern är igång
 });

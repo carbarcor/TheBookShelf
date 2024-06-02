@@ -120,15 +120,15 @@ const loginUser = async (req, res) => {
 
   // Funktion för att hämta användarens profil
   const getProfile = (req, res) => {
-    const { token } = req.cookies;// Hämta token från cookies
+    const { token } = req.cookies; // Hämta token från cookies
     if (token) {
       // Verifiera token
       jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
         if (err) throw err;
-        res.json(user);// Skicka tillbaka användarens data
+        res.json(user); // Skicka tillbaka användarens data
       });
     } else {
-      res.json(null);// Om ingen token finns, skicka tillbaka null
+      res.json(null); // Om ingen token finns, skicka tillbaka null
     }
   };
   

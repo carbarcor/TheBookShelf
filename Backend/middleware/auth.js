@@ -12,8 +12,8 @@ const authenticateToken = (req, res, next) => {
   try {
      // Verifiera token med hjälp av JWT-hemligheten
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;// Sätt den dekodade användarinformationen i request-objektet
-    next();// Fortsätt till nästa middleware eller route-handler
+    req.user = decoded; // Sätt den dekodade användarinformationen i request-objektet
+    next(); // Fortsätt till nästa middleware eller route-handler
   } catch (err) {
     // Om verifieringen misslyckas, skicka ett felmeddelande
     res.status(400).json({ error: 'Invalid token' });

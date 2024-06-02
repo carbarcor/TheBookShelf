@@ -1,10 +1,10 @@
 const express = require('express');
 const Review = require('../models/Review'); // Importerar Review-modellen
 const authenticateToken = require('../middleware/auth');// Importerar middleware för autentisering
-const router = express.Router();// Skapar en ny router för att hantera recensioner
+const router = express.Router(); // Skapar en ny router för att hantera recensioner
 const { likeReview, dislikeReview } = require('../controllers/reviewController');
 
-// Aggiungere una nuova recensione
+// Route för att lägga till en ny recension
 router.post('/reviews', authenticateToken, async (req, res) => {
   const { bookId, review_text, rating } = req.body;// Destrukturera body-parametrarna från förfrågan
   const userId = req.user.id; // Destrukturera body-parametrarna från förfrågan
@@ -35,10 +35,10 @@ router.post('/reviews', authenticateToken, async (req, res) => {
 
      // Spara recensionen i databasen
     await review.save();
-    res.status(201).json(review);// Skicka tillbaka den skapade recensionen med status 201
+    res.status(201).json(review); // Skicka tillbaka den skapade recensionen med status 201
   } catch (error) {
     console.error('Error creating review:', error);
-    res.status(500).json({ error: error.message });// Skicka ett felmeddelande om något går fel
+    res.status(500).json({ error: error.message }); // Skicka ett felmeddelande om något går fel
   }
 });
 
@@ -55,10 +55,11 @@ router.get('/reviews/:bookId', async (req, res) => {
     res.json(reviews); // Skicka tillbaka recensionerna
   } catch (error) {
     console.error('Error fetching reviews:', error);
-    res.status(500).json({ error: 'Error fetching reviews' });// Skicka ett felmeddelande om något går fel
+    res.status(500).json({ error: 'Error fetching reviews' }); // Skicka ett felmeddelande om något går fel
   }
 });
 
+// Route för att gilla en recension
 router.post('/reviews/:reviewId/like', async (req, res) => {
   const { reviewId } = req.params;
   const { userId } = req.body;
@@ -71,12 +72,12 @@ router.post('/reviews/:reviewId/like', async (req, res) => {
       return res.status(404).json({ error: 'Review not found' });
     }
 
-    // if like remove dislike
+    // Ta bort ogillning om användaren tidigare ogillat recensionen
     if (review.dislikes.includes(userId)) {
       review.dislikes.pull(userId);
     }
 
-    // if dislike, remove like
+    // Ta bort gillning om användaren redan har gillat recensionen, annars addera gillning
     if (review.likes.includes(userId)) {
       review.likes.pull(userId);
     } else {
@@ -92,7 +93,7 @@ router.post('/reviews/:reviewId/like', async (req, res) => {
   }
 });
 
-
+// Route för att ogilla recension
 router.post('/reviews/:reviewId/dislike', async (req, res) => {
   const { reviewId } = req.params;
   const { userId } = req.body;
@@ -105,12 +106,12 @@ router.post('/reviews/:reviewId/dislike', async (req, res) => {
       return res.status(404).json({ error: 'Review not found' });
     }
 
-    // if dislike remove like
+    // Ta bort gillning om användaren redan gillat recensionen
     if (review.likes.includes(userId)) {
       review.likes.pull(userId);
     }
 
-    // If like remove dislike
+    // Ta bort ogillning om användaren redan ogillat recensionen, annars addera ogillning
     if (review.dislikes.includes(userId)) {
       review.dislikes.pull(userId);
     } else {
@@ -126,6 +127,7 @@ router.post('/reviews/:reviewId/dislike', async (req, res) => {
   }
 });
 
+// Route för att ta bort recension
 router.delete('/reviews/:reviewId', async (req, res) => {
   const { reviewId } = req.params;
   const { userId } = req.body;
@@ -138,6 +140,7 @@ router.delete('/reviews/:reviewId', async (req, res) => {
       return res.status(404).json({ error: 'Review not found' });
     }
 
+    // Kontrollera att användaren är auktoriserad till att ta bort recension
     if (review.user.toString() !== userId) {
       return res.status(403).json({ error: 'You can only delete your own reviews' });
     }

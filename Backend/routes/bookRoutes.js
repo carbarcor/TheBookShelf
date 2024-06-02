@@ -2,9 +2,9 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-//Route för att söka efter böcker
+// Route för att söka efter böcker
 router.get('/search', async (req, res) => {
-// Destrukturera query-parametrar och sätt ett standardvärde på limit till 5
+  // Destrukturera query-parametrar och sätt ett standardvärde på limit till 5
   const { q, author, title, isbn, limit = 5 } = req.query; 
 
   // Skapa en array för att bygga upp query-strängen
@@ -43,7 +43,7 @@ router.get('/search', async (req, res) => {
 
 // Route för att hämta detaljer om en specifik bok
 router.get('/book/:id', async (req, res) => {
-   // Hämta bok-ID från URL-parametrarna  
+  // Hämta bok-ID från URL-parametrarna  
   const { id } = req.params;
 
   try {
@@ -55,11 +55,15 @@ router.get('/book/:id', async (req, res) => {
     // Dra ut det första ID:et ur arrayn "covers"
     const coverId = bookDetails.covers && bookDetails.covers.length > 0 ? bookDetails.covers[0] : null;
 
-    let authorDetails = [];
+    // Hämta information om författare
+    let authorDetails = []; // Tom array för att lagra information om författare
     if (bookDetails.authors && bookDetails.authors.length > 0) {
       authorDetails = await Promise.all(
+        // Använd map över authors-arrayn för att skapa en lista över promises för varje författare
         bookDetails.authors.map(async author => {
+          // API-request för att hämta info om varje författare baserat på author.key
           const authorRes = await axios.get(`https://openlibrary.org${author.author.key}.json`);
+          // Extrahera och returnera författares namn
           return authorRes.data.name;
         })
       );
@@ -67,7 +71,9 @@ router.get('/book/:id', async (req, res) => {
 
     // Hämta utgivningsår via Search-API:et
     const searchResponse = await axios.get(`https://openlibrary.org/search.json?q=${encodeURIComponent(bookDetails.title)}&author=${encodeURIComponent(authorDetails.join(','))}`);
+    // Filtrera sökresultat för att hitta boken som matchar id:et
     const searchResults = searchResponse.data.docs.filter(book => book.key === `/works/${id}`);
+    // Extrahera utgivningsår från sökresultat
     const publishDetails = searchResults.length > 0 && searchResults[0].first_publish_year ? searchResults[0].first_publish_year : null;
 
     // Skicka tillbaka svaret som JSON
