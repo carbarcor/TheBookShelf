@@ -126,6 +126,7 @@
   padding: 20px;
 }
 
+/* Animering av loader */
 .loader {
   width: 60px;
   aspect-ratio: 2;

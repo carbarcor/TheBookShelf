@@ -56,10 +56,10 @@
   right: 10px;
   width: 24px;
   height: 24px;
-  background-color: white; /* Sfondo bianco per l'icona */
-  border-radius: 50%; /* Forma circolare */
-  padding: 5px; /* Spazio interno per dare respiro all'icona */
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sfumatura */
+  background-color: white;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -77,19 +77,21 @@
   font-size: 16px;
 }
 
-
+/* Desktop */
 @media (min-width: 1024px) {
   .books-container {
     grid-template-columns: repeat(3, 1fr); 
   }
 }
 
+/* Tablet */
 @media (min-width: 768px) and (max-width: 1023px) {
   .books-container {
     grid-template-columns: repeat(2, 1fr); 
   }
 }
 
+/* Mobil */
 @media (max-width: 767px) {
   .books-container {
     grid-template-columns: 1fr; 

@@ -20,6 +20,7 @@ a {
   padding-left: 10px;
   padding-right: 10px;
 }
+
 a:hover {
   color: #535bf2;
 }
@@ -50,9 +51,11 @@ button {
   margin-left: 10px;
 
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
@@ -63,6 +66,7 @@ label {
   padding-right: 2px;
 }
 
+/* Light mode */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

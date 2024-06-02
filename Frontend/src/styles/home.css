@@ -1,5 +1,3 @@
-/* src/styles/home.css */
-
 .home-container {
 position: relative;
 height: 100vh;
@@ -10,7 +8,6 @@ text-align: center;
 color: #ffffff;
 overflow: hidden;
 }
-
 
 .aboutUs {
 background-color: rgba(0, 0, 0, 0.6);
